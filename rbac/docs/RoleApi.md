@@ -15,17 +15,49 @@ Method | HTTP request | Description
 
 ## CreateRoles
 
-> RoleWithAccess CreateRoles(ctx, roleIn)
+> RoleWithAccess CreateRoles(ctx).RoleIn(roleIn).Execute()
 
 Create a roles for a tenant
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    roleIn := openapiclient.RoleIn{Name: "Name_example", DisplayName: "DisplayName_example", Description: "Description_example", Access: []Access{openapiclient.Access{Permission: "Permission_example", ResourceDefinitions: []ResourceDefinition{openapiclient.ResourceDefinition{AttributeFilter: openapiclient.ResourceDefinitionFilter{Key: "Key_example", Operation: "Operation_example", Value: "Value_example"}})})} // RoleIn | Role to create
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.RoleApi.CreateRoles(context.Background(), roleIn).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `RoleApi.CreateRoles``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `CreateRoles`: RoleWithAccess
+    fmt.Fprintf(os.Stdout, "Response from `RoleApi.CreateRoles`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateRolesRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**roleIn** | [**RoleIn**](RoleIn.md)| Role to create | 
+ **roleIn** | [**RoleIn**](RoleIn.md) | Role to create | 
 
 ### Return type
 
@@ -47,17 +79,51 @@ Name | Type | Description  | Notes
 
 ## DeleteRole
 
-> DeleteRole(ctx, uuid)
+> DeleteRole(ctx, uuid).Execute()
 
 Delete a role in the tenant
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    uuid := TODO // string | ID of role to delete
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.RoleApi.DeleteRole(context.Background(), uuid).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `RoleApi.DeleteRole``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**uuid** | [**string**](.md)| ID of role to delete | 
+**uuid** | [**string**](.md) | ID of role to delete | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteRoleRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 
@@ -79,17 +145,55 @@ Name | Type | Description  | Notes
 
 ## GetRole
 
-> RoleWithAccess GetRole(ctx, uuid)
+> RoleWithAccess GetRole(ctx, uuid).Scope(scope).Execute()
 
 Get a role in the tenant
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    uuid := TODO // string | ID of role to get
+    scope := "scope_example" // string | Parameter for filtering resource by scope. (optional) (default to "account")
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.RoleApi.GetRole(context.Background(), uuid).Scope(scope).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `RoleApi.GetRole``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetRole`: RoleWithAccess
+    fmt.Fprintf(os.Stdout, "Response from `RoleApi.GetRole`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**uuid** | [**string**](.md)| ID of role to get | 
+**uuid** | [**string**](.md) | ID of role to get | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetRoleRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **scope** | **string** | Parameter for filtering resource by scope. | [default to &quot;account&quot;]
 
 ### Return type
 
@@ -111,29 +215,57 @@ Name | Type | Description  | Notes
 
 ## GetRoleAccess
 
-> AccessPagination GetRoleAccess(ctx, uuid, optional)
+> AccessPagination GetRoleAccess(ctx, uuid).Limit(limit).Offset(offset).Execute()
 
 Get access for a role in the tenant
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    uuid := TODO // string | ID of the role
+    limit := 987 // int32 | Parameter for selecting the amount of data returned. (optional) (default to 10)
+    offset := 987 // int32 | Parameter for selecting the offset of data. (optional) (default to 0)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.RoleApi.GetRoleAccess(context.Background(), uuid).Limit(limit).Offset(offset).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `RoleApi.GetRoleAccess``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetRoleAccess`: AccessPagination
+    fmt.Fprintf(os.Stdout, "Response from `RoleApi.GetRoleAccess`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**uuid** | [**string**](.md)| ID of the role | 
- **optional** | ***GetRoleAccessOpts** | optional parameters | nil if no parameters
+**uuid** | [**string**](.md) | ID of the role | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a GetRoleAccessOpts struct
+Other parameters are passed through a pointer to a apiGetRoleAccessRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **limit** | **optional.Int32**| Parameter for selecting the amount of data returned. | [default to 10]
- **offset** | **optional.Int32**| Parameter for selecting the offset of data. | [default to 0]
+ **limit** | **int32** | Parameter for selecting the amount of data returned. | [default to 10]
+ **offset** | **int32** | Parameter for selecting the offset of data. | [default to 0]
 
 ### Return type
 
@@ -155,34 +287,69 @@ Name | Type | Description  | Notes
 
 ## ListRoles
 
-> RolePaginationDynamic ListRoles(ctx, optional)
+> RolePaginationDynamic ListRoles(ctx).Limit(limit).Offset(offset).Name(name).NameMatch(nameMatch).Scope(scope).OrderBy(orderBy).AddFields(addFields).Username(username).Application(application).Permission(permission).Execute()
 
 List the roles for a tenant
 
-By default, responses are sorted in ascending order by role name
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    limit := 987 // int32 | Parameter for selecting the amount of data returned. (optional) (default to 10)
+    offset := 987 // int32 | Parameter for selecting the offset of data. (optional) (default to 0)
+    name := "name_example" // string | Parameter for filtering resource by name using string contains search. (optional)
+    nameMatch := "nameMatch_example" // string | Parameter for specifying the matching criteria for an object's name. (optional)
+    scope := "scope_example" // string | Parameter for filtering resource by scope. (optional) (default to "account")
+    orderBy := "orderBy_example" // string | Parameter for ordering resource by value. For inverse ordering, supply '-' before the param value, such as: ?order_by=-name (optional)
+    addFields := []string{"AddFields_example"} // []string | Parameter for add list of fields to display for roles. (optional)
+    username := "username_example" // string | Unique username of the principal to obtain roles for (only available for admins, and if supplied, takes precedence over the identity header). (optional)
+    application := "application_example" // string | The application name(s) to filter roles by, from permissions. This is an exact match. You may also use a comma-separated list to match on multiple applications. (optional)
+    permission := "permission_example" // string | The permission(s) to filter roles by. This is an exact match. You may also use a comma-separated list to match on multiple permissions. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.RoleApi.ListRoles(context.Background(), ).Limit(limit).Offset(offset).Name(name).NameMatch(nameMatch).Scope(scope).OrderBy(orderBy).AddFields(addFields).Username(username).Application(application).Permission(permission).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `RoleApi.ListRoles``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ListRoles`: RolePaginationDynamic
+    fmt.Fprintf(os.Stdout, "Response from `RoleApi.ListRoles`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiListRolesRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***ListRolesOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a ListRolesOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **limit** | **optional.Int32**| Parameter for selecting the amount of data returned. | [default to 10]
- **offset** | **optional.Int32**| Parameter for selecting the offset of data. | [default to 0]
- **name** | **optional.String**| Parameter for filtering resource by name using string contains search. | 
- **scope** | **optional.String**| Parameter for filtering resource by scope. | [default to account]
- **orderBy** | **optional.String**| Parameter for ordering resource by value. For inverse ordering, supply &#39;-&#39; before the param value, such as: ?order_by&#x3D;-name | 
- **addFields** | [**optional.Interface of []string**](string.md)| Parameter for add list of fields to display for roles. | 
- **username** | **optional.String**| Unique username of the principal to obtain roles for (only available for admins, and if supplied, takes precedence over the identity header). | 
+ **limit** | **int32** | Parameter for selecting the amount of data returned. | [default to 10]
+ **offset** | **int32** | Parameter for selecting the offset of data. | [default to 0]
+ **name** | **string** | Parameter for filtering resource by name using string contains search. | 
+ **nameMatch** | **string** | Parameter for specifying the matching criteria for an object&#39;s name. | 
+ **scope** | **string** | Parameter for filtering resource by scope. | [default to &quot;account&quot;]
+ **orderBy** | **string** | Parameter for ordering resource by value. For inverse ordering, supply &#39;-&#39; before the param value, such as: ?order_by&#x3D;-name | 
+ **addFields** | [**[]string**](string.md) | Parameter for add list of fields to display for roles. | 
+ **username** | **string** | Unique username of the principal to obtain roles for (only available for admins, and if supplied, takes precedence over the identity header). | 
+ **application** | **string** | The application name(s) to filter roles by, from permissions. This is an exact match. You may also use a comma-separated list to match on multiple applications. | 
+ **permission** | **string** | The permission(s) to filter roles by. This is an exact match. You may also use a comma-separated list to match on multiple permissions. | 
 
 ### Return type
 
@@ -204,18 +371,53 @@ Name | Type | Description  | Notes
 
 ## UpdateRole
 
-> UpdateRole(ctx, uuid, roleWithAccess)
+> UpdateRole(ctx, uuid).RoleWithAccess(roleWithAccess).Execute()
 
 Update a Role in the tenant
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    uuid := TODO // string | ID of role to update
+    roleWithAccess := openapiclient.RoleWithAccess{Name: "Name_example", DisplayName: "DisplayName_example", Description: "Description_example", Uuid: "Uuid_example", Created: time.Now(), Modified: time.Now(), PolicyCount: 123, AccessCount: 123, Applications: []string{"Applications_example"), System: false, PlatformDefault: false, Access: []Access{openapiclient.Access{Permission: "Permission_example", ResourceDefinitions: []ResourceDefinition{openapiclient.ResourceDefinition{AttributeFilter: openapiclient.ResourceDefinitionFilter{Key: "Key_example", Operation: "Operation_example", Value: "Value_example"}})})} // RoleWithAccess | Update to a Role
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.RoleApi.UpdateRole(context.Background(), uuid, roleWithAccess).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `RoleApi.UpdateRole``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**uuid** | [**string**](.md)| ID of role to update | 
-**roleWithAccess** | [**RoleWithAccess**](RoleWithAccess.md)| Update to a Role | 
+**uuid** | [**string**](.md) | ID of role to update | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateRoleRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **roleWithAccess** | [**RoleWithAccess**](RoleWithAccess.md) | Update to a Role | 
 
 ### Return type
 

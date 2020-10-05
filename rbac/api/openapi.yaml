@@ -28,13 +28,13 @@ paths:
     get:
       operationId: getStatus
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Status'
           description: An object describing the server status
-        500:
+        "500":
           content:
             application/json:
               schema:
@@ -88,22 +88,57 @@ paths:
           - desc
           type: string
         style: form
+      - description: Exact e-mail address of principal to search for
+        explode: true
+        in: query
+        name: email
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: 'Set the status of users to get back. Could not be used with:
+          usernames, email, admin_only'
+        explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          default: enabled
+          enum:
+          - enabled
+          - disabled
+          - all
+          type: string
+        style: form
+      - description: 'Get only admin users within an account. Setting this would ignore
+          the parameters: usernames, email'
+        explode: true
+        in: query
+        name: admin_only
+        required: false
+        schema:
+          default: "false"
+          enum:
+          - "true"
+          - "false"
+          type: string
+        style: form
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PrincipalPagination'
           description: A paginated list of principals
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error403'
           description: Insufficient permissions to list principals
-        500:
+        "500":
           content:
             application/json:
               schema:
@@ -145,6 +180,18 @@ paths:
         name: name
         required: false
         schema:
+          type: string
+        style: form
+      - description: Parameter for specifying the matching criteria for an object's
+          name.
+        explode: true
+        in: query
+        name: name_match
+        required: false
+        schema:
+          enum:
+          - partial
+          - exact
           type: string
         style: form
       - description: Parameter for filtering resource by scope.
@@ -210,21 +257,21 @@ paths:
           type: string
         style: form
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GroupPagination'
           description: A paginated list of group objects
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error403'
           description: Insufficient permissions to list groups
-        500:
+        "500":
           content:
             application/json:
               schema:
@@ -243,21 +290,21 @@ paths:
         description: Group to create in tenant
         required: true
       responses:
-        201:
+        "201":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GroupOut'
           description: An object describing the group
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error403'
           description: Insufficient permissions to create group
-        500:
+        "500":
           content:
             application/json:
               schema:
@@ -280,23 +327,23 @@ paths:
           type: string
         style: simple
       responses:
-        204:
+        "204":
           description: Group deleted
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error403'
           description: Insufficient permissions to delete group
-        404:
+        "404":
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/Error'
           description: Not Found
-        500:
+        "500":
           content:
             '*/*':
               schema:
@@ -318,27 +365,27 @@ paths:
           type: string
         style: simple
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GroupWithPrincipalsAndRoles'
           description: A Group object
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error403'
           description: Insufficient permissions to get group
-        404:
+        "404":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
           description: Not Found
-        500:
+        "500":
           content:
             application/json:
               schema:
@@ -367,27 +414,27 @@ paths:
         description: Group to update in tenant
         required: true
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GroupOut'
           description: Group updated
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error403'
           description: Insufficient permissions to update group
-        404:
+        "404":
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/Error'
           description: Not Found
-        500:
+        "500":
           content:
             '*/*':
               schema:
@@ -419,25 +466,25 @@ paths:
           type: string
         style: form
       responses:
-        204:
+        "204":
           description: Principals removed from group
-        400:
+        "400":
           description: Bad Input
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error403'
           description: Insufficient permissions to remove principals from group
-        404:
+        "404":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
           description: Not Found
-        500:
+        "500":
           content:
             application/json:
               schema:
@@ -468,6 +515,27 @@ paths:
         schema:
           type: string
         style: form
+      - description: Parameter for selecting the amount of data returned.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          maximum: 1000
+          minimum: 1
+          type: integer
+        style: form
+      - description: Parameter for selecting the offset of data.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
       - description: 'Parameter for ordering principals by value. For inverse ordering,
           supply ''-'' before the param value, such as: ?order_by=-username'
         explode: true
@@ -480,23 +548,23 @@ paths:
           type: string
         style: form
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PrincipalPagination'
           description: List of principals attached to group
-        400:
+        "400":
           description: Bad Input
-        401:
+        "401":
           description: Unauthorized
-        404:
+        "404":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
           description: Not Found
-        500:
+        "500":
           content:
             application/json:
               schema:
@@ -520,29 +588,29 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/GroupPrincipalIn'
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GroupWithPrincipalsAndRoles'
           description: Group updated
-        400:
+        "400":
           description: Bad Input
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error403'
           description: Insufficient permissions to update principals in group
-        404:
+        "404":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
           description: Not Found
-        500:
+        "500":
           content:
             application/json:
               schema:
@@ -574,25 +642,25 @@ paths:
           type: string
         style: form
       responses:
-        204:
+        "204":
           description: Roles removed from group
-        400:
+        "400":
           description: Bad Input
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error403'
           description: Insufficient permissions to remove roles from group
-        404:
+        "404":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
           description: Not Found
-        500:
+        "500":
           content:
             application/json:
               schema:
@@ -677,21 +745,21 @@ paths:
           type: string
         style: form
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GroupRolesPagination'
           description: A list of roles for a group
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error403'
           description: Insufficient permissions to list roles for group
-        500:
+        "500":
           content:
             application/json:
               schema:
@@ -715,29 +783,29 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/GroupRoleIn'
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/inline_response_200'
           description: Group updated
-        400:
+        "400":
           description: Bad Input
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error403'
           description: Insufficient permissions to update roles for group
-        404:
+        "404":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
           description: Not Found
-        500:
+        "500":
           content:
             application/json:
               schema:
@@ -779,6 +847,18 @@ paths:
         name: name
         required: false
         schema:
+          type: string
+        style: form
+      - description: Parameter for specifying the matching criteria for an object's
+          name.
+        explode: true
+        in: query
+        name: name_match
+        required: false
+        schema:
+          enum:
+          - partial
+          - exact
           type: string
         style: form
       - description: Parameter for filtering resource by scope.
@@ -824,22 +904,41 @@ paths:
         schema:
           type: string
         style: form
+      - description: The application name(s) to filter roles by, from permissions.
+          This is an exact match. You may also use a comma-separated list to match
+          on multiple applications.
+        explode: true
+        in: query
+        name: application
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: The permission(s) to filter roles by. This is an exact match.
+          You may also use a comma-separated list to match on multiple permissions.
+        explode: true
+        in: query
+        name: permission
+        required: false
+        schema:
+          type: string
+        style: form
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RolePaginationDynamic'
           description: A paginated list of role objects
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error403'
           description: Insufficient permissions to list roles
-        500:
+        "500":
           content:
             application/json:
               schema:
@@ -858,21 +957,21 @@ paths:
         description: Role to create
         required: true
       responses:
-        201:
+        "201":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RoleWithAccess'
           description: An object describing the role
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error403'
           description: Insufficient permissions to create role
-        500:
+        "500":
           content:
             application/json:
               schema:
@@ -895,23 +994,23 @@ paths:
           type: string
         style: simple
       responses:
-        204:
+        "204":
           description: Role deleted
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error403'
           description: Insufficient permissions to delete role
-        404:
+        "404":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
           description: Not Found
-        500:
+        "500":
           content:
             application/json:
               schema:
@@ -932,28 +1031,40 @@ paths:
           format: uuid
           type: string
         style: simple
+      - description: Parameter for filtering resource by scope.
+        explode: true
+        in: query
+        name: scope
+        required: false
+        schema:
+          default: account
+          enum:
+          - account
+          - principal
+          type: string
+        style: form
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RoleWithAccess'
           description: A Role object
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error403'
           description: Insufficient permissions to get role
-        404:
+        "404":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
           description: Not Found
-        500:
+        "500":
           content:
             application/json:
               schema:
@@ -982,23 +1093,23 @@ paths:
         description: Update to a Role
         required: true
       responses:
-        200:
+        "200":
           description: Role updated
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error403'
           description: Insufficient permissions to update role
-        404:
+        "404":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
           description: Not Found
-        500:
+        "500":
           content:
             application/json:
               schema:
@@ -1042,27 +1153,27 @@ paths:
           type: integer
         style: form
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccessPagination'
           description: A paginated list of the access objects for a role
-        401:
+        "401":
           description: Unauthorized
-        403:
+        "403":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error403'
           description: Insufficient permissions to get access for role
-        404:
+        "404":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
           description: Not Found
-        500:
+        "500":
           content:
             application/json:
               schema:
@@ -1147,15 +1258,15 @@ paths:
           type: string
         style: form
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PolicyPagination'
           description: A paginated list of policy objects
-        401:
+        "401":
           description: Unauthorized
-        500:
+        "500":
           content:
             application/json:
               schema:
@@ -1174,15 +1285,15 @@ paths:
         description: Policy to create
         required: true
       responses:
-        201:
+        "201":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PolicyExtended'
           description: An object describing the policy
-        401:
+        "401":
           description: Unauthorized
-        500:
+        "500":
           content:
             application/json:
               schema:
@@ -1205,17 +1316,17 @@ paths:
           type: string
         style: simple
       responses:
-        204:
+        "204":
           description: Policy deleted
-        401:
+        "401":
           description: Unauthorized
-        404:
+        "404":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
           description: Not Found
-        500:
+        "500":
           content:
             application/json:
               schema:
@@ -1237,21 +1348,21 @@ paths:
           type: string
         style: simple
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PolicyExtended'
           description: A Policy object
-        401:
+        "401":
           description: Unauthorized
-        404:
+        "404":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
           description: Not Found
-        500:
+        "500":
           content:
             application/json:
               schema:
@@ -1280,21 +1391,21 @@ paths:
         description: Policy to update
         required: true
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PolicyExtended'
           description: A Policy object
-        401:
+        "401":
           description: Unauthorized
-        404:
+        "404":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
           description: Not Found
-        500:
+        "500":
           content:
             application/json:
               schema:
@@ -1351,21 +1462,21 @@ paths:
           type: integer
         style: form
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccessPagination'
           description: A paginated list of access objects
-        401:
+        "401":
           description: Unauthorized
-        404:
+        "404":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
           description: Not Found
-        500:
+        "500":
           content:
             application/json:
               schema:
@@ -1375,6 +1486,206 @@ paths:
         principal from the identity header)
       tags:
       - Access
+  /permissions/:
+    get:
+      description: By default, responses are sorted in ascending order by permission
+        application.
+      operationId: listPermissions
+      parameters:
+      - description: Parameter for selecting the amount of data returned.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          maximum: 1000
+          minimum: 1
+          type: integer
+        style: form
+      - description: Parameter for selecting the offset of data.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - description: 'Parameter for ordering resource by value. For inverse ordering,
+          supply ''-'' before the param value, such as: ?order_by=-name'
+        explode: true
+        in: query
+        name: order_by
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Exact match for the application name of a permission. You may
+          also use a comma-separated list to match on multiple applications.
+        explode: true
+        in: query
+        name: application
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Exact match for the resource type name of a permission. You may
+          also use a comma-separated list to match on multiple resource_types.
+        explode: true
+        in: query
+        name: resource_type
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Exact match for the operation verb name of a permission You may
+          also use a comma-separated list to match on multiple verbs.
+        explode: true
+        in: query
+        name: verb
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Partial match for the aggregate permission value name of a permission
+          object.
+        explode: true
+        in: query
+        name: permission
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: If set to 'true', this will exclude any permission with a global
+          allowance on either 'application', 'resource_type' or 'verb'. The default
+          is 'false'.
+        explode: true
+        in: query
+        name: exclude_globals
+        required: false
+        schema:
+          default: "false"
+          enum:
+          - "true"
+          - "false"
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionPagination'
+          description: A paginated list of permission objects
+        "401":
+          description: Unauthorized
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error403'
+          description: Insufficient permissions to list permissions
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unexpected Error
+      summary: List the permissions for a tenant
+      tags:
+      - Permission
+  /permissions/options/:
+    get:
+      description: By default, options of application is returned. And could be resource_type
+        or verb on demand.
+      operationId: listPermissionOptions
+      parameters:
+      - description: Parameter for selecting the amount of data returned.
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          maximum: 1000
+          minimum: 1
+          type: integer
+        style: form
+      - description: Parameter for selecting the offset of data.
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - description: specify which fields of permission to display
+        explode: true
+        in: query
+        name: field
+        required: true
+        schema:
+          enum:
+          - application
+          - resource_type
+          - verb
+          type: string
+        style: form
+      - description: Filter returned options based on application. You may also use
+          a comma-separated list to filter on multiple applications.
+        explode: true
+        in: query
+        name: application
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Filter returned options based on resource_type. You may also
+          use a comma-separated list to filter on multiple resource_types.
+        explode: true
+        in: query
+        name: resource_type
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Filter returned options based on verb. You may also use a comma-separated
+          list to filter on multiple verbs.
+        explode: true
+        in: query
+        name: verb
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionOptionsPagination'
+          description: A list of options for field of permission
+        "401":
+          description: Unauthorized
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error403'
+          description: Insufficient permissions to list permissions
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unexpected Error
+      summary: List the available options for fields of permissions for a tenant
+      tags:
+      - Permission
 components:
   parameters:
     QueryOffset:
@@ -1454,6 +1765,19 @@ components:
         - principal
         type: string
       style: form
+    NameMatchCriteria:
+      description: Parameter for specifying the matching criteria for an object's
+        name.
+      explode: true
+      in: query
+      name: name_match
+      required: false
+      schema:
+        enum:
+        - partial
+        - exact
+        type: string
+      style: form
   requestBodies:
     GroupPrincipalIn:
       content:
@@ -1474,10 +1798,7 @@ components:
       properties:
         errors:
           items:
-            example:
-              detail: Not Found.
-              status: 404
-            type: object
+            $ref: '#/components/schemas/Error_errors'
           type: array
       required:
       - errors
@@ -1485,11 +1806,7 @@ components:
       properties:
         errors:
           items:
-            example:
-              detail: You do not have permission to perform this action.
-              source: detail
-              status: 403
-            type: object
+            $ref: '#/components/schemas/Error403_errors'
           type: array
       required:
       - errors
@@ -1563,6 +1880,8 @@ components:
           type: string
         is_active:
           type: boolean
+        is_org_admin:
+          type: boolean
       required:
       - email
       - username
@@ -1601,6 +1920,9 @@ components:
         name:
           example: GroupA
           type: string
+        description:
+          example: GroupA Description
+          type: string
         uuid:
           example: 234df936-abb4-4238-a1c9-d91fc540c702
           type: string
@@ -1609,19 +1931,7 @@ components:
       - $ref: '#/components/schemas/Group'
       - $ref: '#/components/schemas/UUID'
       - $ref: '#/components/schemas/Timestamped'
-      - properties:
-          principalCount:
-            minimum: 0
-            type: integer
-          roleCount:
-            minimum: 0
-            type: integer
-          system:
-            default: false
-            type: boolean
-          platform_default:
-            default: false
-            type: boolean
+      - $ref: '#/components/schemas/GroupOut_allOf'
     GroupPrincipalIn:
       example:
         principals:
@@ -1708,6 +2018,9 @@ components:
         name:
           example: RoleA
           type: string
+        display_name:
+          example: ARoleName
+          type: string
         description:
           example: A description of RoleA
           type: string
@@ -1730,24 +2043,7 @@ components:
       - $ref: '#/components/schemas/Role'
       - $ref: '#/components/schemas/UUID'
       - $ref: '#/components/schemas/Timestamped'
-      - properties:
-          policyCount:
-            minimum: 0
-            type: integer
-          accessCount:
-            minimum: 0
-            type: integer
-          applications:
-            items:
-              example: catalog
-              type: string
-            type: array
-          system:
-            default: false
-            type: boolean
-          platform_default:
-            default: false
-            type: boolean
+      - $ref: '#/components/schemas/RoleOut_allOf'
     RoleOutDynamic:
       allOf:
       - $ref: '#/components/schemas/Role'
@@ -1850,6 +2146,28 @@ components:
           type: object
       required:
       - api_version
+    Permission:
+      properties:
+        application:
+          example: rbac
+          type: string
+        resource_type:
+          example: group
+          type: string
+        verb:
+          example: read
+          type: string
+        permission:
+          example: rbac:group:read
+          type: string
+    PermissionPagination:
+      allOf:
+      - $ref: '#/components/schemas/ListPagination'
+      - $ref: '#/components/schemas/PermissionPagination_allOf'
+    PermissionOptionsPagination:
+      allOf:
+      - $ref: '#/components/schemas/ListPagination'
+      - $ref: '#/components/schemas/PermissionOptionsPagination_allOf'
     inline_response_200:
       example:
         data:
@@ -1862,6 +2180,28 @@ components:
           type: array
       required:
       - data
+      type: object
+    Error_errors:
+      properties:
+        detail:
+          example: Not found.
+          type: string
+        status:
+          example: "403"
+          type: string
+      type: object
+    Error403_errors:
+      properties:
+        detail:
+          example: You do not have permission to perform this action.
+          type: string
+        source:
+          example: detail
+          type: string
+        status:
+          example: "403"
+          type: string
+      type: object
     PrincipalPagination_allOf:
       properties:
         data:
@@ -1870,6 +2210,21 @@ components:
           type: array
       required:
       - data
+      type: object
+    GroupOut_allOf:
+      properties:
+        principalCount:
+          minimum: 0
+          type: integer
+        roleCount:
+          minimum: 0
+          type: integer
+        system:
+          default: false
+          type: boolean
+        platform_default:
+          default: false
+          type: boolean
     GroupWithPrincipals_allOf:
       properties:
         principals:
@@ -1878,6 +2233,7 @@ components:
           type: array
       required:
       - principals
+      type: object
     GroupWithPrincipalsAndRoles_allOf:
       properties:
         principals:
@@ -1891,6 +2247,7 @@ components:
       required:
       - principals
       - roles
+      type: object
     GroupPagination_allOf:
       properties:
         data:
@@ -1899,6 +2256,7 @@ components:
           type: array
       required:
       - data
+      type: object
     RoleIn_allOf:
       properties:
         access:
@@ -1907,6 +2265,7 @@ components:
           type: array
       required:
       - access
+      type: object
     RolePaginationDynamic_allOf:
       properties:
         data:
@@ -1915,6 +2274,26 @@ components:
           type: array
       required:
       - data
+      type: object
+    RoleOut_allOf:
+      properties:
+        policyCount:
+          minimum: 0
+          type: integer
+        accessCount:
+          minimum: 0
+          type: integer
+        applications:
+          items:
+            example: catalog
+            type: string
+          type: array
+        system:
+          default: false
+          type: boolean
+        platform_default:
+          default: false
+          type: boolean
     RoleOutDynamic_allOf:
       properties:
         policyCount:
@@ -1947,6 +2326,7 @@ components:
       - platform_default
       - policyCount
       - system
+      type: object
     PolicyIn_allOf:
       properties:
         group:
@@ -1962,6 +2342,7 @@ components:
       required:
       - group
       - roles
+      type: object
     PolicyExtended_allOf:
       properties:
         group:
@@ -1973,6 +2354,7 @@ components:
       required:
       - group
       - roles
+      type: object
     PolicyPagination_allOf:
       properties:
         data:
@@ -1981,6 +2363,7 @@ components:
           type: array
       required:
       - data
+      type: object
     AccessPagination_allOf:
       properties:
         data:
@@ -1989,6 +2372,25 @@ components:
           type: array
       required:
       - data
+      type: object
+    PermissionPagination_allOf:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/Permission'
+          type: array
+      required:
+      - data
+      type: object
+    PermissionOptionsPagination_allOf:
+      properties:
+        data:
+          items:
+            type: string
+          type: array
+      required:
+      - data
+      type: object
   securitySchemes:
     basic_auth:
       description: The userid/password is needed when accessing this API externally

@@ -10,33 +10,67 @@ Method | HTTP request | Description
 
 ## ApiTagGetTags
 
-> ActiveTags ApiTagGetTags(ctx, optional)
+> ActiveTags ApiTagGetTags(ctx).Tags(tags).OrderBy(orderBy).OrderHow(orderHow).PerPage(perPage).Page(page).Staleness(staleness).Search(search).RegisteredWith(registeredWith).Filter(filter).Execute()
 
 Get the active host tags for a given account
 
-### Required Parameters
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    tags := []string{"Inner_example"} // []string | filters out hosts not tagged by the given tags (optional)
+    orderBy := "orderBy_example" // string | Ordering field name (optional) (default to "tag")
+    orderHow := "orderHow_example" // string | Direction of the ordering. Default to ASC (optional) (default to "ASC")
+    perPage := 987 // int32 | A number of items to return per page. (optional) (default to 50)
+    page := 987 // int32 | A page number of the items to return. (optional) (default to 1)
+    staleness := []string{"Staleness_example"} // []string | Culling states of the hosts. Default: fresh,stale,unknown (optional) (default to ["fresh","stale","unknown"])
+    search := "search_example" // string | Only include tags that match the given search string. The value is matched against namespace, key and value. (optional)
+    registeredWith := "registeredWith_example" // string | Filters out any host not registered with the specified service (optional)
+    filter := TODO // map[string]interface{} | Filters hosts based on system_profile fields (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.TagsApi.ApiTagGetTags(context.Background(), ).Tags(tags).OrderBy(orderBy).OrderHow(orderHow).PerPage(perPage).Page(page).Staleness(staleness).Search(search).RegisteredWith(registeredWith).Filter(filter).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `TagsApi.ApiTagGetTags``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ApiTagGetTags`: ActiveTags
+    fmt.Fprintf(os.Stdout, "Response from `TagsApi.ApiTagGetTags`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiApiTagGetTagsRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***ApiTagGetTagsOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a ApiTagGetTagsOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **tags** | [**optional.Interface of []string**](string.md)| filters out hosts not tagged by the given tags | 
- **orderBy** | **optional.String**| Ordering field name | [default to tag]
- **orderHow** | **optional.String**| Direction of the ordering. Default to ASC | [default to ASC]
- **perPage** | **optional.Int32**| A number of items to return per page. | [default to 50]
- **page** | **optional.Int32**| A page number of the items to return. | [default to 1]
- **staleness** | [**optional.Interface of []string**](string.md)| Culling states of the hosts. Default: fresh,stale,unknown | [default to [&quot;fresh&quot;,&quot;stale&quot;,&quot;unknown&quot;]]
- **search** | **optional.String**| Only include tags that match the given search string. The value is matched against namespace, key and value. | 
- **registeredWith** | **optional.String**| Filters out any host not registered with the specified service | 
+ **tags** | [**[]string**](string.md) | filters out hosts not tagged by the given tags | 
+ **orderBy** | **string** | Ordering field name | [default to &quot;tag&quot;]
+ **orderHow** | **string** | Direction of the ordering. Default to ASC | [default to &quot;ASC&quot;]
+ **perPage** | **int32** | A number of items to return per page. | [default to 50]
+ **page** | **int32** | A page number of the items to return. | [default to 1]
+ **staleness** | [**[]string**](string.md) | Culling states of the hosts. Default: fresh,stale,unknown | [default to [&quot;fresh&quot;,&quot;stale&quot;,&quot;unknown&quot;]]
+ **search** | **string** | Only include tags that match the given search string. The value is matched against namespace, key and value. | 
+ **registeredWith** | **string** | Filters out any host not registered with the specified service | 
+ **filter** | [**map[string]interface{}**](.md) | Filters hosts based on system_profile fields | 
 
 ### Return type
 

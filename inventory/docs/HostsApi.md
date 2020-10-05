@@ -19,19 +19,51 @@ Method | HTTP request | Description
 
 ## ApiHostAddHostList
 
-> BulkHostOut ApiHostAddHostList(ctx, createHostIn)
+> BulkHostOut ApiHostAddHostList(ctx).CreateHostIn(createHostIn).Execute()
 
 Create/update multiple host and add them to the host list
 
-Create a new host and add it to the host list or update an existing hosts. A host is updated if there is already one with the same canonicals facts and belonging to the same account.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    createHostIn := []CreateHostIn{openapiclient.CreateHostIn{Account: "Account_example", AnsibleHost: "AnsibleHost_example", BiosUuid: "BiosUuid_example", DisplayName: "DisplayName_example", ExternalId: "ExternalId_example", Facts: []FactSet{openapiclient.FactSet{Facts: 123, Namespace: "Namespace_example"}), Fqdn: "Fqdn_example", InsightsId: "InsightsId_example", IpAddresses: []string{"IpAddresses_example"), MacAddresses: []string{"MacAddresses_example"), Reporter: "Reporter_example", RhelMachineId: "RhelMachineId_example", SatelliteId: "SatelliteId_example", StaleTimestamp: time.Now(), SubscriptionManagerId: "SubscriptionManagerId_example", SystemProfile: openapiclient.SystemProfile{Arch: "Arch_example", BiosReleaseDate: "BiosReleaseDate_example", BiosVendor: "BiosVendor_example", BiosVersion: "BiosVersion_example", CapturedDate: "CapturedDate_example", CloudProvider: "CloudProvider_example", CoresPerSocket: 123, CpuFlags: []string{"CpuFlags_example"), DiskDevices: []SystemProfileDiskDevices{openapiclient.SystemProfile_disk_devices{Device: "Device_example", Label: "Label_example", MountPoint: "MountPoint_example", Options: 123, Type: "Type_example"}), DnfModules: []SystemProfileDnfModules{openapiclient.SystemProfile_dnf_modules{Name: "Name_example", Stream: "Stream_example"}), EnabledServices: []string{"EnabledServices_example"), InfrastructureType: "InfrastructureType_example", InfrastructureVendor: "InfrastructureVendor_example", InsightsClientVersion: "InsightsClientVersion_example", InsightsEggVersion: "InsightsEggVersion_example", InstalledPackages: []string{"InstalledPackages_example"), InstalledProducts: []SystemProfileInstalledProducts{openapiclient.SystemProfile_installed_products{Id: "Id_example", Name: "Name_example", Status: "Status_example"}), InstalledServices: []string{"InstalledServices_example"), KatelloAgentRunning: false, KernelModules: []string{"KernelModules_example"), LastBootTime: time.Now(), NetworkInterfaces: []SystemProfileNetworkInterfaces{openapiclient.SystemProfile_network_interfaces{Ipv4Addresses: []string{"Ipv4Addresses_example"), Ipv6Addresses: []string{"Ipv6Addresses_example"), MacAddress: "MacAddress_example", Mtu: 123, Name: "Name_example", State: "State_example", Type: "Type_example"}), NumberOfCpus: 123, NumberOfSockets: 123, OsKernelVersion: "OsKernelVersion_example", OsRelease: "OsRelease_example", RunningProcesses: []string{"RunningProcesses_example"), SapSids: []string{"SapSids_example"), SapSystem: false, SatelliteManaged: false, SubscriptionAutoAttach: "SubscriptionAutoAttach_example", SubscriptionStatus: "SubscriptionStatus_example", SystemMemoryBytes: int64(123), TunedProfile: "TunedProfile_example", YumRepos: []SystemProfileYumRepos{openapiclient.SystemProfile_yum_repos{BaseUrl: "BaseUrl_example", Enabled: false, Gpgcheck: false, Id: "Id_example", Name: "Name_example"})}}} // []CreateHostIn | A list of host objects to be added to the host list
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.HostsApi.ApiHostAddHostList(context.Background(), createHostIn).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `HostsApi.ApiHostAddHostList``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ApiHostAddHostList`: BulkHostOut
+    fmt.Fprintf(os.Stdout, "Response from `HostsApi.ApiHostAddHostList`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiApiHostAddHostListRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**createHostIn** | [**[]CreateHostIn**](CreateHostIn.md)| A list of host objects to be added to the host list | 
+ **createHostIn** | [**[]CreateHostIn**](CreateHostIn.md) | A list of host objects to be added to the host list | 
 
 ### Return type
 
@@ -53,30 +85,55 @@ Name | Type | Description  | Notes
 
 ## ApiHostDeleteById
 
-> ApiHostDeleteById(ctx, hostIdList, optional)
+> ApiHostDeleteById(ctx, hostIdList).BranchId(branchId).Execute()
 
 Delete hosts by IDs
 
-Delete hosts by IDs
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    hostIdList := []string{"Inner_example"} // []string | A comma separated list of host IDs.
+    branchId := "branchId_example" // string | Filter by branch_id (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.HostsApi.ApiHostDeleteById(context.Background(), hostIdList).BranchId(branchId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `HostsApi.ApiHostDeleteById``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**hostIdList** | [**[]string**](string.md)| A comma separated list of host IDs. | 
- **optional** | ***ApiHostDeleteByIdOpts** | optional parameters | nil if no parameters
+**hostIdList** | [**[]string**](string.md) | A comma separated list of host IDs. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a ApiHostDeleteByIdOpts struct
+Other parameters are passed through a pointer to a apiApiHostDeleteByIdRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **branchId** | **optional.String**| Filter by branch_id | 
+ **branchId** | **string** | Filter by branch_id | 
 
 ### Return type
 
@@ -98,34 +155,65 @@ Name | Type | Description  | Notes
 
 ## ApiHostGetHostById
 
-> HostQueryOutput ApiHostGetHostById(ctx, hostIdList, optional)
+> HostQueryOutput ApiHostGetHostById(ctx, hostIdList).BranchId(branchId).PerPage(perPage).Page(page).OrderBy(orderBy).OrderHow(orderHow).Execute()
 
 Find hosts by their IDs
 
-Find one or more hosts by their ID.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    hostIdList := []string{"Inner_example"} // []string | A comma separated list of host IDs.
+    branchId := "branchId_example" // string | Filter by branch_id (optional)
+    perPage := 987 // int32 | A number of items to return per page. (optional) (default to 50)
+    page := 987 // int32 | A page number of the items to return. (optional) (default to 1)
+    orderBy := "orderBy_example" // string | Ordering field name (optional)
+    orderHow := "orderHow_example" // string | Direction of the ordering, defaults to ASC for display_name and to DESC for updated (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.HostsApi.ApiHostGetHostById(context.Background(), hostIdList).BranchId(branchId).PerPage(perPage).Page(page).OrderBy(orderBy).OrderHow(orderHow).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `HostsApi.ApiHostGetHostById``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ApiHostGetHostById`: HostQueryOutput
+    fmt.Fprintf(os.Stdout, "Response from `HostsApi.ApiHostGetHostById`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**hostIdList** | [**[]string**](string.md)| A comma separated list of host IDs. | 
- **optional** | ***ApiHostGetHostByIdOpts** | optional parameters | nil if no parameters
+**hostIdList** | [**[]string**](string.md) | A comma separated list of host IDs. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a ApiHostGetHostByIdOpts struct
+Other parameters are passed through a pointer to a apiApiHostGetHostByIdRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **branchId** | **optional.String**| Filter by branch_id | 
- **perPage** | **optional.Int32**| A number of items to return per page. | [default to 50]
- **page** | **optional.Int32**| A page number of the items to return. | [default to 1]
- **orderBy** | **optional.String**| Ordering field name | 
- **orderHow** | **optional.String**| Direction of the ordering, defaults to ASC for display_name and to DESC for updated | 
+ **branchId** | **string** | Filter by branch_id | 
+ **perPage** | **int32** | A number of items to return per page. | [default to 50]
+ **page** | **int32** | A page number of the items to return. | [default to 1]
+ **orderBy** | **string** | Ordering field name | 
+ **orderHow** | **string** | Direction of the ordering, defaults to ASC for display_name and to DESC for updated | 
 
 ### Return type
 
@@ -147,39 +235,75 @@ Name | Type | Description  | Notes
 
 ## ApiHostGetHostList
 
-> HostQueryOutput ApiHostGetHostList(ctx, optional)
+> HostQueryOutput ApiHostGetHostList(ctx).DisplayName(displayName).Fqdn(fqdn).HostnameOrId(hostnameOrId).InsightsId(insightsId).BranchId(branchId).PerPage(perPage).Page(page).OrderBy(orderBy).OrderHow(orderHow).Staleness(staleness).Tags(tags).RegisteredWith(registeredWith).Filter(filter).Execute()
 
 Read the entire list of hosts
 
-Read the entire list of all hosts available to the account.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    displayName := "displayName_example" // string | A part of a searched host’s display name. (optional)
+    fqdn := "fqdn_example" // string | Filter by a host's FQDN (optional)
+    hostnameOrId := "hostnameOrId_example" // string | Search for a host by display_name, fqdn, id (optional)
+    insightsId := TODO // string | Search for a host by insights_id (optional)
+    branchId := "branchId_example" // string | Filter by branch_id (optional)
+    perPage := 987 // int32 | A number of items to return per page. (optional) (default to 50)
+    page := 987 // int32 | A page number of the items to return. (optional) (default to 1)
+    orderBy := "orderBy_example" // string | Ordering field name (optional)
+    orderHow := "orderHow_example" // string | Direction of the ordering, defaults to ASC for display_name and to DESC for updated (optional)
+    staleness := []string{"Staleness_example"} // []string | Culling states of the hosts. Default: fresh,stale,unknown (optional) (default to ["fresh","stale","unknown"])
+    tags := []string{"Inner_example"} // []string | filters out hosts not tagged by the given tags (optional)
+    registeredWith := "registeredWith_example" // string | Filters out any host not registered with the specified service (optional)
+    filter := TODO // map[string]interface{} | Filters hosts based on system_profile fields (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.HostsApi.ApiHostGetHostList(context.Background(), ).DisplayName(displayName).Fqdn(fqdn).HostnameOrId(hostnameOrId).InsightsId(insightsId).BranchId(branchId).PerPage(perPage).Page(page).OrderBy(orderBy).OrderHow(orderHow).Staleness(staleness).Tags(tags).RegisteredWith(registeredWith).Filter(filter).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `HostsApi.ApiHostGetHostList``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ApiHostGetHostList`: HostQueryOutput
+    fmt.Fprintf(os.Stdout, "Response from `HostsApi.ApiHostGetHostList`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiApiHostGetHostListRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***ApiHostGetHostListOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a ApiHostGetHostListOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **displayName** | **optional.String**| A part of a searched host’s display name. | 
- **fqdn** | **optional.String**| Filter by a host&#39;s FQDN | 
- **hostnameOrId** | **optional.String**| Search for a host by display_name, fqdn, id | 
- **insightsId** | [**optional.Interface of string**](.md)| Search for a host by insights_id | 
- **branchId** | **optional.String**| Filter by branch_id | 
- **perPage** | **optional.Int32**| A number of items to return per page. | [default to 50]
- **page** | **optional.Int32**| A page number of the items to return. | [default to 1]
- **orderBy** | **optional.String**| Ordering field name | 
- **orderHow** | **optional.String**| Direction of the ordering, defaults to ASC for display_name and to DESC for updated | 
- **staleness** | [**optional.Interface of []string**](string.md)| Culling states of the hosts. Default: fresh,stale,unknown | [default to [&quot;fresh&quot;,&quot;stale&quot;,&quot;unknown&quot;]]
- **tags** | [**optional.Interface of []string**](string.md)| filters out hosts not tagged by the given tags | 
- **registeredWith** | **optional.String**| Filters out any host not registered with the specified service | 
+ **displayName** | **string** | A part of a searched host’s display name. | 
+ **fqdn** | **string** | Filter by a host&#39;s FQDN | 
+ **hostnameOrId** | **string** | Search for a host by display_name, fqdn, id | 
+ **insightsId** | [**string**](.md) | Search for a host by insights_id | 
+ **branchId** | **string** | Filter by branch_id | 
+ **perPage** | **int32** | A number of items to return per page. | [default to 50]
+ **page** | **int32** | A page number of the items to return. | [default to 1]
+ **orderBy** | **string** | Ordering field name | 
+ **orderHow** | **string** | Direction of the ordering, defaults to ASC for display_name and to DESC for updated | 
+ **staleness** | [**[]string**](string.md) | Culling states of the hosts. Default: fresh,stale,unknown | [default to [&quot;fresh&quot;,&quot;stale&quot;,&quot;unknown&quot;]]
+ **tags** | [**[]string**](string.md) | filters out hosts not tagged by the given tags | 
+ **registeredWith** | **string** | Filters out any host not registered with the specified service | 
+ **filter** | [**map[string]interface{}**](.md) | Filters hosts based on system_profile fields | 
 
 ### Return type
 
@@ -201,34 +325,65 @@ Name | Type | Description  | Notes
 
 ## ApiHostGetHostSystemProfileById
 
-> SystemProfileByHostOut ApiHostGetHostSystemProfileById(ctx, hostIdList, optional)
+> SystemProfileByHostOut ApiHostGetHostSystemProfileById(ctx, hostIdList).PerPage(perPage).Page(page).OrderBy(orderBy).OrderHow(orderHow).BranchId(branchId).Execute()
 
 Return one or more hosts system profile
 
-Find one or more hosts by their ID and return the id and system profile
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    hostIdList := []string{"Inner_example"} // []string | A comma separated list of host IDs.
+    perPage := 987 // int32 | A number of items to return per page. (optional) (default to 50)
+    page := 987 // int32 | A page number of the items to return. (optional) (default to 1)
+    orderBy := "orderBy_example" // string | Ordering field name (optional)
+    orderHow := "orderHow_example" // string | Direction of the ordering, defaults to ASC for display_name and to DESC for updated (optional)
+    branchId := "branchId_example" // string | Filter by branch_id (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.HostsApi.ApiHostGetHostSystemProfileById(context.Background(), hostIdList).PerPage(perPage).Page(page).OrderBy(orderBy).OrderHow(orderHow).BranchId(branchId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `HostsApi.ApiHostGetHostSystemProfileById``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ApiHostGetHostSystemProfileById`: SystemProfileByHostOut
+    fmt.Fprintf(os.Stdout, "Response from `HostsApi.ApiHostGetHostSystemProfileById`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**hostIdList** | [**[]string**](string.md)| A comma separated list of host IDs. | 
- **optional** | ***ApiHostGetHostSystemProfileByIdOpts** | optional parameters | nil if no parameters
+**hostIdList** | [**[]string**](string.md) | A comma separated list of host IDs. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a ApiHostGetHostSystemProfileByIdOpts struct
+Other parameters are passed through a pointer to a apiApiHostGetHostSystemProfileByIdRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **perPage** | **optional.Int32**| A number of items to return per page. | [default to 50]
- **page** | **optional.Int32**| A page number of the items to return. | [default to 1]
- **orderBy** | **optional.String**| Ordering field name | 
- **orderHow** | **optional.String**| Direction of the ordering, defaults to ASC for display_name and to DESC for updated | 
- **branchId** | **optional.String**| Filter by branch_id | 
+ **perPage** | **int32** | A number of items to return per page. | [default to 50]
+ **page** | **int32** | A page number of the items to return. | [default to 1]
+ **orderBy** | **string** | Ordering field name | 
+ **orderHow** | **string** | Direction of the ordering, defaults to ASC for display_name and to DESC for updated | 
+ **branchId** | **string** | Filter by branch_id | 
 
 ### Return type
 
@@ -250,33 +405,63 @@ Name | Type | Description  | Notes
 
 ## ApiHostGetHostTagCount
 
-> TagCountOut ApiHostGetHostTagCount(ctx, hostIdList, optional)
+> TagCountOut ApiHostGetHostTagCount(ctx, hostIdList).PerPage(perPage).Page(page).OrderBy(orderBy).OrderHow(orderHow).Execute()
 
 Get the number of tags on a host
 
-Get the number of tags on a host
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    hostIdList := []string{"Inner_example"} // []string | A comma separated list of host IDs.
+    perPage := 987 // int32 | A number of items to return per page. (optional) (default to 50)
+    page := 987 // int32 | A page number of the items to return. (optional) (default to 1)
+    orderBy := "orderBy_example" // string | Ordering field name (optional)
+    orderHow := "orderHow_example" // string | Direction of the ordering, defaults to ASC for display_name and to DESC for updated (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.HostsApi.ApiHostGetHostTagCount(context.Background(), hostIdList).PerPage(perPage).Page(page).OrderBy(orderBy).OrderHow(orderHow).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `HostsApi.ApiHostGetHostTagCount``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ApiHostGetHostTagCount`: TagCountOut
+    fmt.Fprintf(os.Stdout, "Response from `HostsApi.ApiHostGetHostTagCount`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**hostIdList** | [**[]string**](string.md)| A comma separated list of host IDs. | 
- **optional** | ***ApiHostGetHostTagCountOpts** | optional parameters | nil if no parameters
+**hostIdList** | [**[]string**](string.md) | A comma separated list of host IDs. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a ApiHostGetHostTagCountOpts struct
+Other parameters are passed through a pointer to a apiApiHostGetHostTagCountRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **perPage** | **optional.Int32**| A number of items to return per page. | [default to 50]
- **page** | **optional.Int32**| A page number of the items to return. | [default to 1]
- **orderBy** | **optional.String**| Ordering field name | 
- **orderHow** | **optional.String**| Direction of the ordering, defaults to ASC for display_name and to DESC for updated | 
+ **perPage** | **int32** | A number of items to return per page. | [default to 50]
+ **page** | **int32** | A page number of the items to return. | [default to 1]
+ **orderBy** | **string** | Ordering field name | 
+ **orderHow** | **string** | Direction of the ordering, defaults to ASC for display_name and to DESC for updated | 
 
 ### Return type
 
@@ -298,34 +483,65 @@ Name | Type | Description  | Notes
 
 ## ApiHostGetHostTags
 
-> TagsOut ApiHostGetHostTags(ctx, hostIdList, optional)
+> TagsOut ApiHostGetHostTags(ctx, hostIdList).PerPage(perPage).Page(page).OrderBy(orderBy).OrderHow(orderHow).Search(search).Execute()
 
 Get the tags on a host
 
-Get the tags on a host
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    hostIdList := []string{"Inner_example"} // []string | A comma separated list of host IDs.
+    perPage := 987 // int32 | A number of items to return per page. (optional) (default to 50)
+    page := 987 // int32 | A page number of the items to return. (optional) (default to 1)
+    orderBy := "orderBy_example" // string | Ordering field name (optional)
+    orderHow := "orderHow_example" // string | Direction of the ordering, defaults to ASC for display_name and to DESC for updated (optional)
+    search := "search_example" // string | Only include tags that match the given search string. The value is matched against namespace, key and value. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.HostsApi.ApiHostGetHostTags(context.Background(), hostIdList).PerPage(perPage).Page(page).OrderBy(orderBy).OrderHow(orderHow).Search(search).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `HostsApi.ApiHostGetHostTags``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ApiHostGetHostTags`: TagsOut
+    fmt.Fprintf(os.Stdout, "Response from `HostsApi.ApiHostGetHostTags`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**hostIdList** | [**[]string**](string.md)| A comma separated list of host IDs. | 
- **optional** | ***ApiHostGetHostTagsOpts** | optional parameters | nil if no parameters
+**hostIdList** | [**[]string**](string.md) | A comma separated list of host IDs. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a ApiHostGetHostTagsOpts struct
+Other parameters are passed through a pointer to a apiApiHostGetHostTagsRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **perPage** | **optional.Int32**| A number of items to return per page. | [default to 50]
- **page** | **optional.Int32**| A page number of the items to return. | [default to 1]
- **orderBy** | **optional.String**| Ordering field name | 
- **orderHow** | **optional.String**| Direction of the ordering, defaults to ASC for display_name and to DESC for updated | 
- **search** | **optional.String**| Only include tags that match the given search string. The value is matched against namespace, key and value. | 
+ **perPage** | **int32** | A number of items to return per page. | [default to 50]
+ **page** | **int32** | A page number of the items to return. | [default to 1]
+ **orderBy** | **string** | Ordering field name | 
+ **orderHow** | **string** | Direction of the ordering, defaults to ASC for display_name and to DESC for updated | 
+ **search** | **string** | Only include tags that match the given search string. The value is matched against namespace, key and value. | 
 
 ### Return type
 
@@ -347,34 +563,60 @@ Name | Type | Description  | Notes
 
 ## ApiHostMergeFacts
 
-> ApiHostMergeFacts(ctx, hostIdList, namespace, body, optional)
+> ApiHostMergeFacts(ctx, hostIdList, namespace).Body(body).BranchId(branchId).Execute()
 
 Merge facts under a namespace
 
-Merge one or multiple hosts facts under a namespace.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    hostIdList := []string{"Inner_example"} // []string | A comma separated list of host IDs.
+    namespace := "namespace_example" // string | A namespace of the merged facts.
+    body := 987 // map[string]interface{} | A dictionary with the new facts to merge with the original ones.
+    branchId := "branchId_example" // string | Filter by branch_id (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.HostsApi.ApiHostMergeFacts(context.Background(), hostIdList, namespace, body).BranchId(branchId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `HostsApi.ApiHostMergeFacts``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**hostIdList** | [**[]string**](string.md)| A comma separated list of host IDs. | 
-**namespace** | **string**| A namespace of the merged facts. | 
-**body** | **map[string]interface{}**| A dictionary with the new facts to merge with the original ones. | 
- **optional** | ***ApiHostMergeFactsOpts** | optional parameters | nil if no parameters
+**hostIdList** | [**[]string**](string.md) | A comma separated list of host IDs. | 
+**namespace** | **string** | A namespace of the merged facts. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a ApiHostMergeFactsOpts struct
+Other parameters are passed through a pointer to a apiApiHostMergeFactsRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
-
- **branchId** | **optional.String**| Filter by branch_id | 
+ **body** | **map[string]interface{}** | A dictionary with the new facts to merge with the original ones. | 
+ **branchId** | **string** | Filter by branch_id | 
 
 ### Return type
 
@@ -396,32 +638,57 @@ Name | Type | Description  | Notes
 
 ## ApiHostPatchById
 
-> ApiHostPatchById(ctx, hostIdList, patchHostIn, optional)
+> ApiHostPatchById(ctx, hostIdList).PatchHostIn(patchHostIn).BranchId(branchId).Execute()
 
 Update a host
 
-Update a host
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    hostIdList := []string{"Inner_example"} // []string | A comma separated list of host IDs.
+    patchHostIn := openapiclient.PatchHostIn{AnsibleHost: "AnsibleHost_example", DisplayName: "DisplayName_example"} // PatchHostIn | A group of fields to be updated on the host
+    branchId := "branchId_example" // string | Filter by branch_id (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.HostsApi.ApiHostPatchById(context.Background(), hostIdList, patchHostIn).BranchId(branchId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `HostsApi.ApiHostPatchById``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**hostIdList** | [**[]string**](string.md)| A comma separated list of host IDs. | 
-**patchHostIn** | [**PatchHostIn**](PatchHostIn.md)| A group of fields to be updated on the host | 
- **optional** | ***ApiHostPatchByIdOpts** | optional parameters | nil if no parameters
+**hostIdList** | [**[]string**](string.md) | A comma separated list of host IDs. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a ApiHostPatchByIdOpts struct
+Other parameters are passed through a pointer to a apiApiHostPatchByIdRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
-
- **branchId** | **optional.String**| Filter by branch_id | 
+ **patchHostIn** | [**PatchHostIn**](PatchHostIn.md) | A group of fields to be updated on the host | 
+ **branchId** | **string** | Filter by branch_id | 
 
 ### Return type
 
@@ -443,34 +710,60 @@ Name | Type | Description  | Notes
 
 ## ApiHostReplaceFacts
 
-> ApiHostReplaceFacts(ctx, hostIdList, namespace, body, optional)
+> ApiHostReplaceFacts(ctx, hostIdList, namespace).Body(body).BranchId(branchId).Execute()
 
 Replace facts under a namespace
 
-Replace facts under a namespace
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    hostIdList := []string{"Inner_example"} // []string | A comma separated list of host IDs.
+    namespace := "namespace_example" // string | A namespace of the merged facts.
+    body := 987 // map[string]interface{} | A dictionary with the new facts to replace the original ones.
+    branchId := "branchId_example" // string | Filter by branch_id (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.HostsApi.ApiHostReplaceFacts(context.Background(), hostIdList, namespace, body).BranchId(branchId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `HostsApi.ApiHostReplaceFacts``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**hostIdList** | [**[]string**](string.md)| A comma separated list of host IDs. | 
-**namespace** | **string**| A namespace of the merged facts. | 
-**body** | **map[string]interface{}**| A dictionary with the new facts to replace the original ones. | 
- **optional** | ***ApiHostReplaceFactsOpts** | optional parameters | nil if no parameters
+**hostIdList** | [**[]string**](string.md) | A comma separated list of host IDs. | 
+**namespace** | **string** | A namespace of the merged facts. | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a ApiHostReplaceFactsOpts struct
+Other parameters are passed through a pointer to a apiApiHostReplaceFactsRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
-
- **branchId** | **optional.String**| Filter by branch_id | 
+ **body** | **map[string]interface{}** | A dictionary with the new facts to replace the original ones. | 
+ **branchId** | **string** | Filter by branch_id | 
 
 ### Return type
 

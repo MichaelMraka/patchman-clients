@@ -8,7 +8,8 @@ servers:
 paths:
   /hosts:
     get:
-      description: Read the entire list of all hosts available to the account.
+      description: 'Read the entire list of all hosts available to the account. <br
+        /><br /> Required permissions: inventory:hosts:read'
       operationId: api.host.get_host_list
       parameters:
       - description: A part of a searched host’s display name.
@@ -136,8 +137,17 @@ paths:
           - insights
           type: string
         style: form
+      - description: Filters hosts based on system_profile fields
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          description: System profile field values to filter with
+          type: object
+        style: deepObject
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -149,9 +159,14 @@ paths:
       tags:
       - hosts
     post:
-      description: Create a new host and add it to the host list or update an existing
+      deprecated: true
+      description: 'Create a new host and add it to the host list or update an existing
         hosts. A host is updated if there is already one with the same canonicals
-        facts and belonging to the same account.
+        facts and belonging to the same account. <br /><br /> Required permissions:
+        inventory:hosts:write <br /><br /> NOTICE: This operation is deprecated. The
+        explicit creation of hosts is no longer supported. Hosts are created automatically
+        based on uploads processed by the [payload ingress service](/docs/api/ingress#operations-default-post_upload)
+        instead.'
       operationId: api.host.add_host_list
       requestBody:
         content:
@@ -160,11 +175,10 @@ paths:
               items:
                 $ref: '#/components/schemas/CreateHostIn'
               type: array
-              x-body-name: host_list
         description: A list of host objects to be added to the host list
         required: true
       responses:
-        207:
+        "207":
           content:
             application/json:
               examples:
@@ -185,7 +199,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/BulkHostOut'
           description: Successfully created a host.
-        400:
+        "400":
           description: Invalid request.
       security:
       - ApiKeyAuth: []
@@ -195,7 +209,7 @@ paths:
       - hosts
   /hosts/{host_id_list}:
     delete:
-      description: Delete hosts by IDs
+      description: 'Delete hosts by IDs <br /><br /> Required permissions: inventory:hosts:write'
       operationId: api.host.delete_by_id
       parameters:
       - description: A comma separated list of host IDs.
@@ -218,11 +232,11 @@ paths:
           type: string
         style: form
       responses:
-        200:
+        "200":
           description: Successfully deleted hosts.
-        400:
+        "400":
           description: Invalid request.
-        404:
+        "404":
           description: Host not found.
       security:
       - ApiKeyAuth: []
@@ -230,7 +244,8 @@ paths:
       tags:
       - hosts
     get:
-      description: Find one or more hosts by their ID.
+      description: 'Find one or more hosts by their ID. <br /><br /> Required permissions:
+        inventory:hosts:read'
       operationId: api.host.get_host_by_id
       parameters:
       - description: A comma separated list of host IDs.
@@ -297,15 +312,15 @@ paths:
           type: string
         style: form
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/HostQueryOutput'
           description: Successfully searched for hosts.
-        400:
+        "400":
           description: Invalid request.
-        404:
+        "404":
           description: Host not found.
       security:
       - ApiKeyAuth: []
@@ -313,7 +328,7 @@ paths:
       tags:
       - hosts
     patch:
-      description: Update a host
+      description: 'Update a host <br /><br /> Required permissions: inventory:hosts:write'
       operationId: api.host.patch_by_id
       parameters:
       - description: A comma separated list of host IDs.
@@ -343,11 +358,11 @@ paths:
         description: A group of fields to be updated on the host
         required: true
       responses:
-        200:
+        "200":
           description: Successfully updated the host.
-        400:
+        "400":
           description: Invalid request.
-        404:
+        "404":
           description: Host not found.
       security:
       - ApiKeyAuth: []
@@ -356,7 +371,8 @@ paths:
       - hosts
   /hosts/{host_id_list}/facts/{namespace}:
     patch:
-      description: Merge one or multiple hosts facts under a namespace.
+      description: 'Merge one or multiple hosts facts under a namespace. <br /><br
+        /> Required permissions: inventory:hosts:write'
       operationId: api.host.merge_facts
       parameters:
       - description: A comma separated list of host IDs.
@@ -394,11 +410,11 @@ paths:
         description: A dictionary with the new facts to merge with the original ones.
         required: true
       responses:
-        200:
+        "200":
           description: Successfully merged facts.
-        400:
+        "400":
           description: Invalid request.
-        404:
+        "404":
           description: Host or namespace not found.
       security:
       - ApiKeyAuth: []
@@ -406,7 +422,8 @@ paths:
       tags:
       - hosts
     put:
-      description: Replace facts under a namespace
+      description: 'Replace facts under a namespace <br /><br /> Required permissions:
+        inventory:hosts:write'
       operationId: api.host.replace_facts
       parameters:
       - description: A comma separated list of host IDs.
@@ -444,11 +461,11 @@ paths:
         description: A dictionary with the new facts to replace the original ones.
         required: true
       responses:
-        200:
+        "200":
           description: Successfully replaced facts.
-        400:
+        "400":
           description: Invalid request.
-        404:
+        "404":
           description: Host or namespace not found.
       security:
       - ApiKeyAuth: []
@@ -457,8 +474,8 @@ paths:
       - hosts
   /hosts/{host_id_list}/system_profile:
     get:
-      description: Find one or more hosts by their ID and return the id and system
-        profile
+      description: 'Find one or more hosts by their ID and return the id and system
+        profile <br /><br /> Required permissions: inventory:hosts:read'
       operationId: api.host.get_host_system_profile_by_id
       parameters:
       - description: A comma separated list of host IDs.
@@ -525,15 +542,15 @@ paths:
           type: string
         style: form
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SystemProfileByHostOut'
           description: Successfully searched for hosts.
-        400:
+        "400":
           description: Invalid request.
-        404:
+        "404":
           description: Host not found.
       security:
       - ApiKeyAuth: []
@@ -542,7 +559,7 @@ paths:
       - hosts
   /hosts/{host_id_list}/tags:
     get:
-      description: Get the tags on a host
+      description: 'Get the tags on a host <br /><br /> Required permissions: inventory:hosts:read'
       operationId: api.host.get_host_tags
       parameters:
       - description: A comma separated list of host IDs.
@@ -610,13 +627,13 @@ paths:
           type: string
         style: form
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TagsOut'
           description: Successfully found tags.
-        400:
+        "400":
           description: Invalid request.
       security:
       - ApiKeyAuth: []
@@ -625,7 +642,8 @@ paths:
       - hosts
   /hosts/{host_id_list}/tags/count:
     get:
-      description: Get the number of tags on a host
+      description: 'Get the number of tags on a host <br /><br /> Required permissions:
+        inventory:hosts:read'
       operationId: api.host.get_host_tag_count
       parameters:
       - description: A comma separated list of host IDs.
@@ -684,21 +702,204 @@ paths:
           type: string
         style: form
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TagCountOut'
           description: Successfully found tag count.
-        400:
+        "400":
           description: Invalid request.
       security:
       - ApiKeyAuth: []
       summary: Get the number of tags on a host
       tags:
       - hosts
+  /system_profile/sap_sids:
+    get:
+      description: 'Required permissions: inventory:hosts:read'
+      operationId: api.system_profile.get_sap_sids
+      parameters:
+      - description: filters out hosts not tagged by the given tags
+        explode: true
+        in: query
+        name: tags
+        required: false
+        schema:
+          items:
+            pattern: ^([^=/]+/)?[^=/]+(=[^=/]+)?$
+            type: string
+          type: array
+        style: form
+      - description: A number of items to return per page.
+        explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          default: 50
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
+      - description: A page number of the items to return.
+        explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          minimum: 1
+          type: integer
+        style: form
+      - description: 'Culling states of the hosts. Default: fresh,stale,unknown'
+        explode: true
+        in: query
+        name: staleness
+        required: false
+        schema:
+          default:
+          - fresh
+          - stale
+          - unknown
+          items:
+            enum:
+            - fresh
+            - stale
+            - stale_warning
+            - unknown
+            type: string
+          type: array
+        style: form
+      - description: Filters out any host not registered with the specified service
+        explode: true
+        in: query
+        name: registered_with
+        required: false
+        schema:
+          enum:
+          - insights
+          type: string
+        style: form
+      - description: Filters hosts based on system_profile fields
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          description: System profile field values to filter with
+          type: object
+        style: deepObject
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SystemProfileSapSystemOut'
+          description: sap_system values and counts for account
+        "400":
+          description: Invalid request.
+        "404":
+          description: Requested page is outside of the range of available pages
+      security:
+      - ApiKeyAuth: []
+      summary: get sap system values
+      tags:
+      - sap_system
+  /system_profile/sap_system:
+    get:
+      description: 'Required permissions: inventory:hosts:read'
+      operationId: api.system_profile.get_sap_system
+      parameters:
+      - description: filters out hosts not tagged by the given tags
+        explode: true
+        in: query
+        name: tags
+        required: false
+        schema:
+          items:
+            pattern: ^([^=/]+/)?[^=/]+(=[^=/]+)?$
+            type: string
+          type: array
+        style: form
+      - description: A number of items to return per page.
+        explode: true
+        in: query
+        name: per_page
+        required: false
+        schema:
+          default: 50
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
+      - description: A page number of the items to return.
+        explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          minimum: 1
+          type: integer
+        style: form
+      - description: 'Culling states of the hosts. Default: fresh,stale,unknown'
+        explode: true
+        in: query
+        name: staleness
+        required: false
+        schema:
+          default:
+          - fresh
+          - stale
+          - unknown
+          items:
+            enum:
+            - fresh
+            - stale
+            - stale_warning
+            - unknown
+            type: string
+          type: array
+        style: form
+      - description: Filters out any host not registered with the specified service
+        explode: true
+        in: query
+        name: registered_with
+        required: false
+        schema:
+          enum:
+          - insights
+          type: string
+        style: form
+      - description: Filters hosts based on system_profile fields
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          description: System profile field values to filter with
+          type: object
+        style: deepObject
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SystemProfileSapSystemOut'
+          description: sap_system values and counts for account
+        "400":
+          description: Invalid request.
+        "404":
+          description: Requested page is outside of the range of available pages
+      security:
+      - ApiKeyAuth: []
+      summary: get sap system values
+      tags:
+      - sap_system
   /tags:
     get:
+      description: 'Required permissions: inventory:hosts:read'
       operationId: api.tag.get_tags
       parameters:
       - description: filters out hosts not tagged by the given tags
@@ -795,16 +996,25 @@ paths:
           - insights
           type: string
         style: form
+      - description: Filters hosts based on system_profile fields
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          description: System profile field values to filter with
+          type: object
+        style: deepObject
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ActiveTags'
           description: Tags
-        400:
+        "400":
           description: Invalid request.
-        404:
+        "404":
           description: Requested page is outside of the range of available pages
       security:
       - ApiKeyAuth: []
@@ -831,6 +1041,16 @@ components:
       schema:
         type: string
       style: simple
+    filter_param:
+      description: Filters hosts based on system_profile fields
+      explode: true
+      in: query
+      name: filter
+      required: false
+      schema:
+        description: System profile field values to filter with
+        type: object
+      style: deepObject
     hostIdList:
       description: A comma separated list of host IDs.
       explode: false
@@ -1044,13 +1264,6 @@ components:
               facts:
                 fact1: value1
                 fact2: value2
-            tags:
-            - namespace: namespace
-              value: value
-              key: key
-            - namespace: namespace
-              value: value
-              key: key
             subscription_manager_id: 3f01b55457674041b75e41829bcee1dc
             ansible_host: host1.mydomain.com
             culled_timestamp: 2000-01-23T04:56:07.000+00:00
@@ -1086,13 +1299,6 @@ components:
               facts:
                 fact1: value1
                 fact2: value2
-            tags:
-            - namespace: namespace
-              value: value
-              key: key
-            - namespace: namespace
-              value: value
-              key: key
             subscription_manager_id: 3f01b55457674041b75e41829bcee1dc
             ansible_host: host1.mydomain.com
             culled_timestamp: 2000-01-23T04:56:07.000+00:00
@@ -1144,13 +1350,6 @@ components:
             facts:
               fact1: value1
               fact2: value2
-          tags:
-          - namespace: namespace
-            value: value
-            key: key
-          - namespace: namespace
-            value: value
-            key: key
           subscription_manager_id: 3f01b55457674041b75e41829bcee1dc
           ansible_host: host1.mydomain.com
           culled_timestamp: 2000-01-23T04:56:07.000+00:00
@@ -1196,12 +1395,12 @@ components:
             name: name
           yum_repos:
           - gpgcheck: true
-            baseurl: https://openapi-generator.tech
+            base_url: https://openapi-generator.tech
             name: name
             id: id
             enabled: true
           - gpgcheck: true
-            baseurl: https://openapi-generator.tech
+            base_url: https://openapi-generator.tech
             name: name
             id: id
             enabled: true
@@ -1221,12 +1420,16 @@ components:
           installed_services:
           - installed_services
           - installed_services
+          sap_sids:
+          - H2O
+          - H2O
           bios_vendor: bios_vendor
           number_of_cpus: 1
           insights_client_version: insights_client_version
           kernel_modules:
           - kernel_modules
           - kernel_modules
+          sap_system: true
           subscription_status: subscription_status
           system_memory_bytes: 5
           katello_agent_running: true
@@ -1241,12 +1444,16 @@ components:
           bios_release_date: bios_release_date
           disk_devices:
           - mount_point: /mnt/remote_nfs_shares
-            options: '{"ro":true,"uid":"0"}'
+            options:
+              ro: true
+              uid: "0"
             label: label
             type: ext3
             device: /dev/fdd0
           - mount_point: /mnt/remote_nfs_shares
-            options: '{"ro":true,"uid":"0"}'
+            options:
+              ro: true
+              uid: "0"
             label: label
             type: ext3
             device: /dev/fdd0
@@ -1259,27 +1466,28 @@ components:
           - cpu_flags
           network_interfaces:
           - ipv6_addresses:
-            - ipv6_addresses
-            - ipv6_addresses
+            - 0123:4567:89ab:cdef:0123:4567:89ab:cdef
+            - 0123:4567:89ab:cdef:0123:4567:89ab:cdef
             mac_address: 00:00:00:00:00:00
             name: eth0
             ipv4_addresses:
-            - ipv4_addresses
-            - ipv4_addresses
+            - 123.456.789.012
+            - 123.456.789.012
             state: UP
             type: ether
             mtu: 6
           - ipv6_addresses:
-            - ipv6_addresses
-            - ipv6_addresses
+            - 0123:4567:89ab:cdef:0123:4567:89ab:cdef
+            - 0123:4567:89ab:cdef:0123:4567:89ab:cdef
             mac_address: 00:00:00:00:00:00
             name: eth0
             ipv4_addresses:
-            - ipv4_addresses
-            - ipv4_addresses
+            - 123.456.789.012
+            - 123.456.789.012
             state: UP
             type: ether
             mtu: 6
+          tuned_profile: desktop
           subscription_auto_attach: subscription_auto_attach
           arch: arch
           infrastructure_vendor: infrastructure_vendor
@@ -1301,13 +1509,6 @@ components:
           facts:
             fact1: value1
             fact2: value2
-        tags:
-        - namespace: namespace
-          value: value
-          key: key
-        - namespace: namespace
-          value: value
-          key: key
         subscription_manager_id: 3f01b55457674041b75e41829bcee1dc
         ansible_host: host1.mydomain.com
         insights_id: 3f01b55457674041b75e41829bcee1dc
@@ -1396,12 +1597,7 @@ components:
           example: 3f01b55457674041b75e41829bcee1dc
           type: string
         system_profile:
-          $ref: '#/components/schemas/SystemProfileIn'
-        tags:
-          description: The tags on a host
-          items:
-            $ref: '#/components/schemas/StructuredTag'
-          type: array
+          $ref: '#/components/schemas/SystemProfile'
       required:
       - account
       - reporter
@@ -1430,13 +1626,6 @@ components:
           facts:
             fact1: value1
             fact2: value2
-        tags:
-        - namespace: namespace
-          value: value
-          key: key
-        - namespace: namespace
-          value: value
-          key: key
         subscription_manager_id: 3f01b55457674041b75e41829bcee1dc
         ansible_host: host1.mydomain.com
         culled_timestamp: 2000-01-23T04:56:07.000+00:00
@@ -1561,11 +1750,6 @@ components:
           example: 3f01b55457674041b75e41829bcee1dc
           nullable: true
           type: string
-        tags:
-          description: An array of the tags on the host
-          items:
-            $ref: '#/components/schemas/StructuredTag'
-          type: array
         updated:
           description: A timestamp when the entry was last updated.
           format: date-time
@@ -1574,43 +1758,6 @@ components:
       - account
       title: Create Host Out
       type: object
-    DiskDevice:
-      description: Representation of one mounted device
-      example:
-        mount_point: /mnt/remote_nfs_shares
-        options: '{"ro":true,"uid":"0"}'
-        label: label
-        type: ext3
-        device: /dev/fdd0
-      properties:
-        device:
-          example: /dev/fdd0
-          type: string
-        label:
-          description: user-defined mount label
-          type: string
-        mount_point:
-          description: mount point
-          example: /mnt/remote_nfs_shares
-          type: string
-        options:
-          $ref: '#/components/schemas/DiskDevice_options'
-        type:
-          description: mount type
-          example: ext3
-          type: string
-      title: Disk Device
-    DnfModule:
-      description: Representation of one DNF module
-      example:
-        stream: stream
-        name: name
-      properties:
-        name:
-          type: string
-        stream:
-          type: string
-      title: DNF Module
     FactSet:
       description: A set of string facts belonging to a single namespace.
       example:
@@ -1697,12 +1844,12 @@ components:
             name: name
           yum_repos:
           - gpgcheck: true
-            baseurl: https://openapi-generator.tech
+            base_url: https://openapi-generator.tech
             name: name
             id: id
             enabled: true
           - gpgcheck: true
-            baseurl: https://openapi-generator.tech
+            base_url: https://openapi-generator.tech
             name: name
             id: id
             enabled: true
@@ -1722,12 +1869,16 @@ components:
           installed_services:
           - installed_services
           - installed_services
+          sap_sids:
+          - H2O
+          - H2O
           bios_vendor: bios_vendor
           number_of_cpus: 1
           insights_client_version: insights_client_version
           kernel_modules:
           - kernel_modules
           - kernel_modules
+          sap_system: true
           subscription_status: subscription_status
           system_memory_bytes: 5
           katello_agent_running: true
@@ -1742,12 +1893,16 @@ components:
           bios_release_date: bios_release_date
           disk_devices:
           - mount_point: /mnt/remote_nfs_shares
-            options: '{"ro":true,"uid":"0"}'
+            options:
+              ro: true
+              uid: "0"
             label: label
             type: ext3
             device: /dev/fdd0
           - mount_point: /mnt/remote_nfs_shares
-            options: '{"ro":true,"uid":"0"}'
+            options:
+              ro: true
+              uid: "0"
             label: label
             type: ext3
             device: /dev/fdd0
@@ -1760,27 +1915,28 @@ components:
           - cpu_flags
           network_interfaces:
           - ipv6_addresses:
-            - ipv6_addresses
-            - ipv6_addresses
+            - 0123:4567:89ab:cdef:0123:4567:89ab:cdef
+            - 0123:4567:89ab:cdef:0123:4567:89ab:cdef
             mac_address: 00:00:00:00:00:00
             name: eth0
             ipv4_addresses:
-            - ipv4_addresses
-            - ipv4_addresses
+            - 123.456.789.012
+            - 123.456.789.012
             state: UP
             type: ether
             mtu: 6
           - ipv6_addresses:
-            - ipv6_addresses
-            - ipv6_addresses
+            - 0123:4567:89ab:cdef:0123:4567:89ab:cdef
+            - 0123:4567:89ab:cdef:0123:4567:89ab:cdef
             mac_address: 00:00:00:00:00:00
             name: eth0
             ipv4_addresses:
-            - ipv4_addresses
-            - ipv4_addresses
+            - 123.456.789.012
+            - 123.456.789.012
             state: UP
             type: ether
             mtu: 6
+          tuned_profile: desktop
           subscription_auto_attach: subscription_auto_attach
           arch: arch
           infrastructure_vendor: infrastructure_vendor
@@ -1790,71 +1946,8 @@ components:
         id:
           type: string
         system_profile:
-          $ref: '#/components/schemas/SystemProfileIn'
+          $ref: '#/components/schemas/SystemProfile'
       title: Structure of an individual host system profile output
-    InstalledProduct:
-      description: Representation of one installed product
-      example:
-        name: name
-        id: "71"
-        status: Subscribed
-      properties:
-        id:
-          description: the product ID
-          example: "71"
-          type: string
-        name:
-          type: string
-        status:
-          description: subscription status for product
-          example: Subscribed
-          type: string
-      title: Installed Product
-    NetworkInterface:
-      description: Representation of one network interface
-      example:
-        ipv6_addresses:
-        - ipv6_addresses
-        - ipv6_addresses
-        mac_address: 00:00:00:00:00:00
-        name: eth0
-        ipv4_addresses:
-        - ipv4_addresses
-        - ipv4_addresses
-        state: UP
-        type: ether
-        mtu: 6
-      properties:
-        ipv4_addresses:
-          items:
-            format: ipv4
-            type: string
-          type: array
-        ipv6_addresses:
-          items:
-            format: ipv6
-            type: string
-          type: array
-        mac_address:
-          description: MAC address (with or without colons)
-          example: 00:00:00:00:00:00
-          type: string
-        mtu:
-          description: MTU
-          type: integer
-        name:
-          description: name of interface
-          example: eth0
-          type: string
-        state:
-          description: interface state (UP, DOWN, UNKNOWN)
-          example: UP
-          type: string
-        type:
-          description: interface type (ether, loopback)
-          example: ether
-          type: string
-      title: Network Interface
     Page:
       description: The page number
       type: integer
@@ -1893,6 +1986,246 @@ components:
           nullable: true
           type: string
       type: object
+    SystemProfile:
+      description: Representation of the system profile fields
+      example:
+        insights_egg_version: insights_egg_version
+        dnf_modules:
+        - stream: stream
+          name: name
+        - stream: stream
+          name: name
+        yum_repos:
+        - gpgcheck: true
+          base_url: https://openapi-generator.tech
+          name: name
+          id: id
+          enabled: true
+        - gpgcheck: true
+          base_url: https://openapi-generator.tech
+          name: name
+          id: id
+          enabled: true
+        installed_products:
+        - name: name
+          id: "71"
+          status: Subscribed
+        - name: name
+          id: "71"
+          status: Subscribed
+        os_release: os_release
+        infrastructure_type: infrastructure_type
+        installed_packages:
+        - krb5-libs-0:-1.16.1-23.fc29.i686
+        - krb5-libs-0:-1.16.1-23.fc29.i686
+        cores_per_socket: 0
+        installed_services:
+        - installed_services
+        - installed_services
+        sap_sids:
+        - H2O
+        - H2O
+        bios_vendor: bios_vendor
+        number_of_cpus: 1
+        insights_client_version: insights_client_version
+        kernel_modules:
+        - kernel_modules
+        - kernel_modules
+        sap_system: true
+        subscription_status: subscription_status
+        system_memory_bytes: 5
+        katello_agent_running: true
+        enabled_services:
+        - enabled_services
+        - enabled_services
+        last_boot_time: 2000-01-23T04:56:07.000+00:00
+        number_of_sockets: 5
+        running_processes:
+        - running_processes
+        - running_processes
+        bios_release_date: bios_release_date
+        disk_devices:
+        - mount_point: /mnt/remote_nfs_shares
+          options:
+            ro: true
+            uid: "0"
+          label: label
+          type: ext3
+          device: /dev/fdd0
+        - mount_point: /mnt/remote_nfs_shares
+          options:
+            ro: true
+            uid: "0"
+          label: label
+          type: ext3
+          device: /dev/fdd0
+        cloud_provider: cloud_provider
+        bios_version: bios_version
+        os_kernel_version: os_kernel_version
+        captured_date: captured_date
+        cpu_flags:
+        - cpu_flags
+        - cpu_flags
+        network_interfaces:
+        - ipv6_addresses:
+          - 0123:4567:89ab:cdef:0123:4567:89ab:cdef
+          - 0123:4567:89ab:cdef:0123:4567:89ab:cdef
+          mac_address: 00:00:00:00:00:00
+          name: eth0
+          ipv4_addresses:
+          - 123.456.789.012
+          - 123.456.789.012
+          state: UP
+          type: ether
+          mtu: 6
+        - ipv6_addresses:
+          - 0123:4567:89ab:cdef:0123:4567:89ab:cdef
+          - 0123:4567:89ab:cdef:0123:4567:89ab:cdef
+          mac_address: 00:00:00:00:00:00
+          name: eth0
+          ipv4_addresses:
+          - 123.456.789.012
+          - 123.456.789.012
+          state: UP
+          type: ether
+          mtu: 6
+        tuned_profile: desktop
+        subscription_auto_attach: subscription_auto_attach
+        arch: arch
+        infrastructure_vendor: infrastructure_vendor
+        satellite_managed: true
+      properties:
+        arch:
+          maxLength: 50
+          type: string
+        bios_release_date:
+          maxLength: 50
+          type: string
+        bios_vendor:
+          maxLength: 100
+          type: string
+        bios_version:
+          maxLength: 100
+          type: string
+        captured_date:
+          maxLength: 32
+          type: string
+        cloud_provider:
+          maxLength: 100
+          type: string
+        cores_per_socket:
+          type: integer
+        cpu_flags:
+          items:
+            maxLength: 30
+            type: string
+          type: array
+        disk_devices:
+          items:
+            $ref: '#/components/schemas/SystemProfile_disk_devices'
+          type: array
+        dnf_modules:
+          items:
+            $ref: '#/components/schemas/SystemProfile_dnf_modules'
+          type: array
+        enabled_services:
+          items:
+            maxLength: 512
+            type: string
+          type: array
+        infrastructure_type:
+          maxLength: 100
+          type: string
+        infrastructure_vendor:
+          maxLength: 100
+          type: string
+        insights_client_version:
+          maxLength: 50
+          type: string
+        insights_egg_version:
+          maxLength: 50
+          type: string
+        installed_packages:
+          items:
+            description: A NEVRA string for a single installed package
+            example: krb5-libs-0:-1.16.1-23.fc29.i686
+            maxLength: 512
+            type: string
+          type: array
+        installed_products:
+          items:
+            $ref: '#/components/schemas/SystemProfile_installed_products'
+          type: array
+        installed_services:
+          items:
+            maxLength: 512
+            type: string
+          type: array
+        katello_agent_running:
+          type: boolean
+        kernel_modules:
+          items:
+            maxLength: 255
+            type: string
+          type: array
+        last_boot_time:
+          format: date-time
+          maxLength: 50
+          type: string
+        network_interfaces:
+          items:
+            $ref: '#/components/schemas/SystemProfile_network_interfaces'
+          type: array
+        number_of_cpus:
+          type: integer
+        number_of_sockets:
+          type: integer
+        os_kernel_version:
+          maxLength: 100
+          type: string
+        os_release:
+          maxLength: 100
+          type: string
+        running_processes:
+          items:
+            description: A single running process. This will be truncated to 1000
+              characters when saved.
+            maxLength: 1000
+            type: string
+          type: array
+        sap_sids:
+          description: List of SAP SIDs
+          items:
+            description: The SAP system ID (SID)
+            example: H2O
+            maxLength: 3
+            pattern: ^[A-Z][A-Z0-9]{2}$
+            type: string
+          type: array
+        sap_system:
+          description: Indicates if SAP is installed on the system
+          type: boolean
+        satellite_managed:
+          type: boolean
+        subscription_auto_attach:
+          maxLength: 100
+          type: string
+        subscription_status:
+          maxLength: 100
+          type: string
+        system_memory_bytes:
+          format: int64
+          type: integer
+        tuned_profile:
+          description: Current profile resulting from command tuned-adm active
+          example: desktop
+          maxLength: 256
+          type: string
+        yum_repos:
+          items:
+            $ref: '#/components/schemas/SystemProfile_yum_repos'
+          type: array
+      type: object
     SystemProfileByHostOut:
       description: Structure of the output of the host system profile query
       example:
@@ -1910,12 +2243,12 @@ components:
               name: name
             yum_repos:
             - gpgcheck: true
-              baseurl: https://openapi-generator.tech
+              base_url: https://openapi-generator.tech
               name: name
               id: id
               enabled: true
             - gpgcheck: true
-              baseurl: https://openapi-generator.tech
+              base_url: https://openapi-generator.tech
               name: name
               id: id
               enabled: true
@@ -1935,12 +2268,16 @@ components:
             installed_services:
             - installed_services
             - installed_services
+            sap_sids:
+            - H2O
+            - H2O
             bios_vendor: bios_vendor
             number_of_cpus: 1
             insights_client_version: insights_client_version
             kernel_modules:
             - kernel_modules
             - kernel_modules
+            sap_system: true
             subscription_status: subscription_status
             system_memory_bytes: 5
             katello_agent_running: true
@@ -1955,12 +2292,16 @@ components:
             bios_release_date: bios_release_date
             disk_devices:
             - mount_point: /mnt/remote_nfs_shares
-              options: '{"ro":true,"uid":"0"}'
+              options:
+                ro: true
+                uid: "0"
               label: label
               type: ext3
               device: /dev/fdd0
             - mount_point: /mnt/remote_nfs_shares
-              options: '{"ro":true,"uid":"0"}'
+              options:
+                ro: true
+                uid: "0"
               label: label
               type: ext3
               device: /dev/fdd0
@@ -1973,27 +2314,28 @@ components:
             - cpu_flags
             network_interfaces:
             - ipv6_addresses:
-              - ipv6_addresses
-              - ipv6_addresses
+              - 0123:4567:89ab:cdef:0123:4567:89ab:cdef
+              - 0123:4567:89ab:cdef:0123:4567:89ab:cdef
               mac_address: 00:00:00:00:00:00
               name: eth0
               ipv4_addresses:
-              - ipv4_addresses
-              - ipv4_addresses
+              - 123.456.789.012
+              - 123.456.789.012
               state: UP
               type: ether
               mtu: 6
             - ipv6_addresses:
-              - ipv6_addresses
-              - ipv6_addresses
+              - 0123:4567:89ab:cdef:0123:4567:89ab:cdef
+              - 0123:4567:89ab:cdef:0123:4567:89ab:cdef
               mac_address: 00:00:00:00:00:00
               name: eth0
               ipv4_addresses:
-              - ipv4_addresses
-              - ipv4_addresses
+              - 123.456.789.012
+              - 123.456.789.012
               state: UP
               type: ether
               mtu: 6
+            tuned_profile: desktop
             subscription_auto_attach: subscription_auto_attach
             arch: arch
             infrastructure_vendor: infrastructure_vendor
@@ -2008,12 +2350,12 @@ components:
               name: name
             yum_repos:
             - gpgcheck: true
-              baseurl: https://openapi-generator.tech
+              base_url: https://openapi-generator.tech
               name: name
               id: id
               enabled: true
             - gpgcheck: true
-              baseurl: https://openapi-generator.tech
+              base_url: https://openapi-generator.tech
               name: name
               id: id
               enabled: true
@@ -2033,12 +2375,16 @@ components:
             installed_services:
             - installed_services
             - installed_services
+            sap_sids:
+            - H2O
+            - H2O
             bios_vendor: bios_vendor
             number_of_cpus: 1
             insights_client_version: insights_client_version
             kernel_modules:
             - kernel_modules
             - kernel_modules
+            sap_system: true
             subscription_status: subscription_status
             system_memory_bytes: 5
             katello_agent_running: true
@@ -2053,12 +2399,16 @@ components:
             bios_release_date: bios_release_date
             disk_devices:
             - mount_point: /mnt/remote_nfs_shares
-              options: '{"ro":true,"uid":"0"}'
+              options:
+                ro: true
+                uid: "0"
               label: label
               type: ext3
               device: /dev/fdd0
             - mount_point: /mnt/remote_nfs_shares
-              options: '{"ro":true,"uid":"0"}'
+              options:
+                ro: true
+                uid: "0"
               label: label
               type: ext3
               device: /dev/fdd0
@@ -2071,27 +2421,28 @@ components:
             - cpu_flags
             network_interfaces:
             - ipv6_addresses:
-              - ipv6_addresses
-              - ipv6_addresses
+              - 0123:4567:89ab:cdef:0123:4567:89ab:cdef
+              - 0123:4567:89ab:cdef:0123:4567:89ab:cdef
               mac_address: 00:00:00:00:00:00
               name: eth0
               ipv4_addresses:
-              - ipv4_addresses
-              - ipv4_addresses
+              - 123.456.789.012
+              - 123.456.789.012
               state: UP
               type: ether
               mtu: 6
             - ipv6_addresses:
-              - ipv6_addresses
-              - ipv6_addresses
+              - 0123:4567:89ab:cdef:0123:4567:89ab:cdef
+              - 0123:4567:89ab:cdef:0123:4567:89ab:cdef
               mac_address: 00:00:00:00:00:00
               name: eth0
               ipv4_addresses:
-              - ipv4_addresses
-              - ipv4_addresses
+              - 123.456.789.012
+              - 123.456.789.012
               state: UP
               type: ether
               mtu: 6
+            tuned_profile: desktop
             subscription_auto_attach: subscription_auto_attach
             arch: arch
             infrastructure_vendor: infrastructure_vendor
@@ -2123,199 +2474,37 @@ components:
       - total
       title: A host system profile query result
       type: object
-    SystemProfileIn:
-      description: Representation of the system profile fields
+    SystemProfileSapSystemOut:
       example:
-        insights_egg_version: insights_egg_version
-        dnf_modules:
-        - stream: stream
-          name: name
-        - stream: stream
-          name: name
-        yum_repos:
-        - gpgcheck: true
-          baseurl: https://openapi-generator.tech
-          name: name
-          id: id
-          enabled: true
-        - gpgcheck: true
-          baseurl: https://openapi-generator.tech
-          name: name
-          id: id
-          enabled: true
-        installed_products:
-        - name: name
-          id: "71"
-          status: Subscribed
-        - name: name
-          id: "71"
-          status: Subscribed
-        os_release: os_release
-        infrastructure_type: infrastructure_type
-        installed_packages:
-        - krb5-libs-0:-1.16.1-23.fc29.i686
-        - krb5-libs-0:-1.16.1-23.fc29.i686
-        cores_per_socket: 0
-        installed_services:
-        - installed_services
-        - installed_services
-        bios_vendor: bios_vendor
-        number_of_cpus: 1
-        insights_client_version: insights_client_version
-        kernel_modules:
-        - kernel_modules
-        - kernel_modules
-        subscription_status: subscription_status
-        system_memory_bytes: 5
-        katello_agent_running: true
-        enabled_services:
-        - enabled_services
-        - enabled_services
-        last_boot_time: 2000-01-23T04:56:07.000+00:00
-        number_of_sockets: 5
-        running_processes:
-        - running_processes
-        - running_processes
-        bios_release_date: bios_release_date
-        disk_devices:
-        - mount_point: /mnt/remote_nfs_shares
-          options: '{"ro":true,"uid":"0"}'
-          label: label
-          type: ext3
-          device: /dev/fdd0
-        - mount_point: /mnt/remote_nfs_shares
-          options: '{"ro":true,"uid":"0"}'
-          label: label
-          type: ext3
-          device: /dev/fdd0
-        cloud_provider: cloud_provider
-        bios_version: bios_version
-        os_kernel_version: os_kernel_version
-        captured_date: captured_date
-        cpu_flags:
-        - cpu_flags
-        - cpu_flags
-        network_interfaces:
-        - ipv6_addresses:
-          - ipv6_addresses
-          - ipv6_addresses
-          mac_address: 00:00:00:00:00:00
-          name: eth0
-          ipv4_addresses:
-          - ipv4_addresses
-          - ipv4_addresses
-          state: UP
-          type: ether
-          mtu: 6
-        - ipv6_addresses:
-          - ipv6_addresses
-          - ipv6_addresses
-          mac_address: 00:00:00:00:00:00
-          name: eth0
-          ipv4_addresses:
-          - ipv4_addresses
-          - ipv4_addresses
-          state: UP
-          type: ether
-          mtu: 6
-        subscription_auto_attach: subscription_auto_attach
-        arch: arch
-        infrastructure_vendor: infrastructure_vendor
-        satellite_managed: true
+        total: 6
+        count: 0
+        results:
+        - ""
+        - ""
       properties:
-        arch:
-          type: string
-        bios_release_date:
-          type: string
-        bios_vendor:
-          type: string
-        bios_version:
-          type: string
-        captured_date:
-          type: string
-        cloud_provider:
-          type: string
-        cores_per_socket:
+        count:
+          description: The number of items on the current page
           type: integer
-        cpu_flags:
+        results:
+          description: The list of sap_system values on the account
           items:
-            type: string
+            oneOf:
+            - properties:
+                count:
+                  type: integer
+                value:
+                  type: string
+              type: object
+            - properties:
+                count:
+                  type: integer
+                value:
+                  type: boolean
+              type: object
           type: array
-        disk_devices:
-          items:
-            $ref: '#/components/schemas/DiskDevice'
-          type: array
-        dnf_modules:
-          items:
-            $ref: '#/components/schemas/DnfModule'
-          type: array
-        enabled_services:
-          items:
-            type: string
-          type: array
-        infrastructure_type:
-          type: string
-        infrastructure_vendor:
-          type: string
-        insights_client_version:
-          type: string
-        insights_egg_version:
-          type: string
-        installed_packages:
-          items:
-            description: a NEVRA string for a single installed package
-            example: krb5-libs-0:-1.16.1-23.fc29.i686
-            type: string
-          type: array
-        installed_products:
-          items:
-            $ref: '#/components/schemas/InstalledProduct'
-          type: array
-        installed_services:
-          items:
-            type: string
-          type: array
-        katello_agent_running:
-          type: boolean
-        kernel_modules:
-          items:
-            type: string
-          type: array
-        last_boot_time:
-          format: date-time
-          type: string
-        network_interfaces:
-          items:
-            $ref: '#/components/schemas/NetworkInterface'
-          type: array
-        number_of_cpus:
+        total:
+          description: Total number of items
           type: integer
-        number_of_sockets:
-          type: integer
-        os_kernel_version:
-          type: string
-        os_release:
-          type: string
-        running_processes:
-          items:
-            description: a single running process. This will be truncated to 1000
-              characters when saved.
-            type: string
-          type: array
-        satellite_managed:
-          type: boolean
-        subscription_auto_attach:
-          type: string
-        subscription_status:
-          type: string
-        system_memory_bytes:
-          format: int64
-          type: integer
-        yum_repos:
-          items:
-            $ref: '#/components/schemas/YumRepo'
-          type: array
-      title: System profile fields
       type: object
     TagCountOut:
       example:
@@ -2382,27 +2571,6 @@ components:
     Total:
       description: Total number of items
       type: integer
-    YumRepo:
-      description: Representation of one yum repository
-      example:
-        gpgcheck: true
-        baseurl: https://openapi-generator.tech
-        name: name
-        id: id
-        enabled: true
-      properties:
-        baseurl:
-          format: uri
-          type: string
-        enabled:
-          type: boolean
-        gpgcheck:
-          type: boolean
-        id:
-          type: string
-        name:
-          type: string
-      title: Yum Repository
     ActiveTag:
       description: Information about a host tag
       properties:
@@ -2416,14 +2584,8 @@ components:
       required:
       - count
       - tag
-    DiskDevice_options:
-      description: mount options
-      example: '{"ro":true,"uid":"0"}'
-      properties:
-        name:
-          type: string
-        value:
-          type: string
+      title: ActiveTag
+      type: object
     HostOut_allOf:
       properties:
         facts:
@@ -2431,6 +2593,155 @@ components:
           items:
             $ref: '#/components/schemas/FactSet'
           type: array
+      type: object
+    SystemProfile_disk_devices:
+      description: Representation of one mounted device
+      example:
+        mount_point: /mnt/remote_nfs_shares
+        options:
+          ro: true
+          uid: "0"
+        label: label
+        type: ext3
+        device: /dev/fdd0
+      properties:
+        device:
+          example: /dev/fdd0
+          maxLength: 2048
+          type: string
+        label:
+          description: User-defined mount label
+          maxLength: 1024
+          type: string
+        mount_point:
+          description: The mount point
+          example: /mnt/remote_nfs_shares
+          maxLength: 2048
+          type: string
+        options:
+          description: Mount options for nested object
+          example:
+            ro: true
+            uid: "0"
+          type: object
+        type:
+          description: The mount type
+          example: ext3
+          maxLength: 256
+          type: string
+      type: object
+    SystemProfile_dnf_modules:
+      description: Representation of one DNF module
+      example:
+        stream: stream
+        name: name
+      properties:
+        name:
+          maxLength: 128
+          type: string
+        stream:
+          maxLength: 2048
+          type: string
+      type: object
+    SystemProfile_installed_products:
+      description: Representation of one installed product
+      example:
+        name: name
+        id: "71"
+        status: Subscribed
+      properties:
+        id:
+          description: The product ID
+          example: "71"
+          maxLength: 64
+          type: string
+        name:
+          maxLength: 512
+          type: string
+        status:
+          description: Subscription status for product
+          example: Subscribed
+          maxLength: 256
+          type: string
+      type: object
+    SystemProfile_network_interfaces:
+      description: Representation of one network interface
+      example:
+        ipv6_addresses:
+        - 0123:4567:89ab:cdef:0123:4567:89ab:cdef
+        - 0123:4567:89ab:cdef:0123:4567:89ab:cdef
+        mac_address: 00:00:00:00:00:00
+        name: eth0
+        ipv4_addresses:
+        - 123.456.789.012
+        - 123.456.789.012
+        state: UP
+        type: ether
+        mtu: 6
+      properties:
+        ipv4_addresses:
+          items:
+            description: The ipv4 address of the system
+            example: 123.456.789.012
+            format: ipv4
+            type: string
+          type: array
+        ipv6_addresses:
+          items:
+            description: The ipv6 address of the system
+            example: 0123:4567:89ab:cdef:0123:4567:89ab:cdef
+            format: ipv6
+            type: string
+          type: array
+        mac_address:
+          description: MAC address (with or without colons)
+          example: 00:00:00:00:00:00
+          maxLength: 59
+          type: string
+        mtu:
+          description: MTU (Maximum transmission unit)
+          type: integer
+        name:
+          description: Name of interface
+          example: eth0
+          maxLength: 50
+          minLength: 1
+          type: string
+        state:
+          description: Interface state (UP, DOWN, UNKNOWN)
+          example: UP
+          maxLength: 25
+          type: string
+        type:
+          description: Interface type (ether, loopback)
+          example: ether
+          maxLength: 18
+          type: string
+      type: object
+    SystemProfile_yum_repos:
+      description: Representation of one yum repository
+      example:
+        gpgcheck: true
+        base_url: https://openapi-generator.tech
+        name: name
+        id: id
+        enabled: true
+      properties:
+        base_url:
+          format: uri
+          maxLength: 2048
+          type: string
+        enabled:
+          type: boolean
+        gpgcheck:
+          type: boolean
+        id:
+          maxLength: 256
+          type: string
+        name:
+          maxLength: 1024
+          type: string
+      type: object
   securitySchemes:
     ApiKeyAuth:
       description: 'Base64-encoded JSON identity header provided by 3Scale. Contains

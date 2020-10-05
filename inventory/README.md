@@ -17,13 +17,53 @@ Install the following dependencies:
 go get github.com/stretchr/testify/assert
 go get golang.org/x/oauth2
 go get golang.org/x/net/context
-go get github.com/antihax/optional
 ```
 
 Put the package under your project folder and add the following in import:
 
 ```golang
-import "./inventory"
+import sw "./inventory"
+```
+
+## Configuration of Server URL
+
+Default configuration comes with `Servers` field that contains server objects as defined in the OpenAPI specification.
+
+### Select Server Configuration
+
+For using other server than the one defined on index 0 set context value `sw.ContextServerIndex` of type `int`.
+
+```golang
+ctx := context.WithValue(context.Background(), sw.ContextServerIndex, 1)
+```
+
+### Templated Server URL
+
+Templated server URL is formatted using default variables from configuration or from context value `sw.ContextServerVariables` of type `map[string]string`.
+
+```golang
+ctx := context.WithValue(context.Background(), sw.ContextServerVariables, map[string]string{
+	"basePath": "v2",
+})
+```
+
+Note, enum values are always validated and all unused variables are silently ignored.
+
+### URLs Configuration per Operation
+
+Each operation can use different server URL defined using `OperationServers` map in the `Configuration`.
+An operation is uniquely identifield by `"{classname}Service.{nickname}"` string.
+Similar rules for overriding default operation server index and variables applies by using `sw.ContextOperationServerIndices` and `sw.ContextOperationServerVariables` context maps.
+
+```
+ctx := context.WithValue(context.Background(), sw.ContextOperationServerIndices, map[string]int{
+	"{classname}Service.{nickname}": 2,
+})
+ctx = context.WithValue(context.Background(), sw.ContextOperationServerVariables, map[string]map[string]string{
+	"{classname}Service.{nickname}": {
+		"port": "8443",
+	},
+})
 ```
 
 ## Documentation for API Endpoints
@@ -42,6 +82,8 @@ Class | Method | HTTP request | Description
 *HostsApi* | [**ApiHostMergeFacts**](docs/HostsApi.md#apihostmergefacts) | **Patch** /hosts/{host_id_list}/facts/{namespace} | Merge facts under a namespace
 *HostsApi* | [**ApiHostPatchById**](docs/HostsApi.md#apihostpatchbyid) | **Patch** /hosts/{host_id_list} | Update a host
 *HostsApi* | [**ApiHostReplaceFacts**](docs/HostsApi.md#apihostreplacefacts) | **Put** /hosts/{host_id_list}/facts/{namespace} | Replace facts under a namespace
+*SapSystemApi* | [**ApiSystemProfileGetSapSids**](docs/SapSystemApi.md#apisystemprofilegetsapsids) | **Get** /system_profile/sap_sids | get sap system values
+*SapSystemApi* | [**ApiSystemProfileGetSapSystem**](docs/SapSystemApi.md#apisystemprofilegetsapsystem) | **Get** /system_profile/sap_system | get sap system values
 *TagsApi* | [**ApiTagGetTags**](docs/TagsApi.md#apitaggettags) | **Get** /tags | Get the active host tags for a given account
 
 
@@ -53,58 +95,65 @@ Class | Method | HTTP request | Description
  - [BulkHostOutDetails](docs/BulkHostOutDetails.md)
  - [CreateHostIn](docs/CreateHostIn.md)
  - [CreateHostOut](docs/CreateHostOut.md)
- - [DiskDevice](docs/DiskDevice.md)
- - [DiskDeviceOptions](docs/DiskDeviceOptions.md)
- - [DnfModule](docs/DnfModule.md)
  - [FactSet](docs/FactSet.md)
  - [HostOut](docs/HostOut.md)
  - [HostOutAllOf](docs/HostOutAllOf.md)
  - [HostQueryOutput](docs/HostQueryOutput.md)
  - [HostSystemProfileOut](docs/HostSystemProfileOut.md)
- - [InstalledProduct](docs/InstalledProduct.md)
- - [NetworkInterface](docs/NetworkInterface.md)
  - [PatchHostIn](docs/PatchHostIn.md)
  - [StructuredTag](docs/StructuredTag.md)
+ - [SystemProfile](docs/SystemProfile.md)
  - [SystemProfileByHostOut](docs/SystemProfileByHostOut.md)
- - [SystemProfileIn](docs/SystemProfileIn.md)
+ - [SystemProfileDiskDevices](docs/SystemProfileDiskDevices.md)
+ - [SystemProfileDnfModules](docs/SystemProfileDnfModules.md)
+ - [SystemProfileInstalledProducts](docs/SystemProfileInstalledProducts.md)
+ - [SystemProfileNetworkInterfaces](docs/SystemProfileNetworkInterfaces.md)
+ - [SystemProfileSapSystemOut](docs/SystemProfileSapSystemOut.md)
+ - [SystemProfileYumRepos](docs/SystemProfileYumRepos.md)
  - [TagCountOut](docs/TagCountOut.md)
  - [TagsOut](docs/TagsOut.md)
- - [YumRepo](docs/YumRepo.md)
 
 
 ## Documentation For Authorization
 
 
 
-## ApiKeyAuth
+### ApiKeyAuth
 
 - **Type**: API key
+- **API key parameter name**: x-rh-identity
+- **Location**: HTTP header
+
+Note, each API key must be added to a map of `map[string]APIKey` where the key is: x-rh-identity and passed in as the auth context for each request.
+
+
+### BearerAuth
+
+- **Type**: HTTP Bearer token authentication
 
 Example
 
 ```golang
-auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{
-    Key: "APIKEY",
-    Prefix: "Bearer", // Omit if not necessary.
-})
+auth := context.WithValue(context.Background(), sw.ContextAccessToken, "BEARERTOKENSTRING")
 r, err := client.Service.Operation(auth, args)
 ```
 
 
-## BearerAuth
+## Documentation for Utility Methods
 
-- **Type**: HTTP basic authentication
+Due to the fact that model structure members are all pointers, this package contains
+a number of utility functions to easily obtain pointers to values of basic types.
+Each of these functions takes a value of the given basic type and returns a pointer to it:
 
-Example
-
-```golang
-auth := context.WithValue(context.Background(), sw.ContextBasicAuth, sw.BasicAuth{
-    UserName: "username",
-    Password: "password",
-})
-r, err := client.Service.Operation(auth, args)
-```
-
+* `PtrBool`
+* `PtrInt`
+* `PtrInt32`
+* `PtrInt64`
+* `PtrFloat`
+* `PtrFloat32`
+* `PtrFloat64`
+* `PtrString`
+* `PtrTime`
 
 ## Author
 

@@ -10,13 +10,44 @@ Method | HTTP request | Description
 
 ## GetStatus
 
-> Status GetStatus(ctx, )
+> Status GetStatus(ctx).Execute()
 
 Obtain server status
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.StatusApi.GetStatus(context.Background(), ).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `StatusApi.GetStatus``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetStatus`: Status
+    fmt.Fprintf(os.Stdout, "Response from `StatusApi.GetStatus`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetStatusRequest struct via the builder pattern
+
 
 ### Return type
 
