@@ -41,7 +41,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.TagsApi.ApiTagGetTags(context.Background(), ).Tags(tags).OrderBy(orderBy).OrderHow(orderHow).PerPage(perPage).Page(page).Staleness(staleness).Search(search).RegisteredWith(registeredWith).Filter(filter).Execute()
+    resp, r, err := api_client.TagsApi.ApiTagGetTags(context.Background()).Tags(tags).OrderBy(orderBy).OrderHow(orderHow).PerPage(perPage).Page(page).Staleness(staleness).Search(search).RegisteredWith(registeredWith).Filter(filter).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `TagsApi.ApiTagGetTags``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

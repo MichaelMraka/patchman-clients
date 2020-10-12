@@ -39,7 +39,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.PermissionApi.ListPermissionOptions(context.Background(), field).Limit(limit).Offset(offset).Application(application).ResourceType(resourceType).Verb(verb).Execute()
+    resp, r, err := api_client.PermissionApi.ListPermissionOptions(context.Background()).Field(field).Limit(limit).Offset(offset).Application(application).ResourceType(resourceType).Verb(verb).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `PermissionApi.ListPermissionOptions``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -117,7 +117,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.PermissionApi.ListPermissions(context.Background(), ).Limit(limit).Offset(offset).OrderBy(orderBy).Application(application).ResourceType(resourceType).Verb(verb).Permission(permission).ExcludeGlobals(excludeGlobals).Execute()
+    resp, r, err := api_client.PermissionApi.ListPermissions(context.Background()).Limit(limit).Offset(offset).OrderBy(orderBy).Application(application).ResourceType(resourceType).Verb(verb).Permission(permission).ExcludeGlobals(excludeGlobals).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `PermissionApi.ListPermissions``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

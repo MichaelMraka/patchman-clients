@@ -42,7 +42,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.GroupApi.AddPrincipalToGroup(context.Background(), uuid, groupPrincipalIn).Execute()
+    resp, r, err := api_client.GroupApi.AddPrincipalToGroup(context.Background(), uuid).GroupPrincipalIn(groupPrincipalIn).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `GroupApi.AddPrincipalToGroup``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -112,7 +112,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.GroupApi.AddRoleToGroup(context.Background(), uuid, groupRoleIn).Execute()
+    resp, r, err := api_client.GroupApi.AddRoleToGroup(context.Background(), uuid).GroupRoleIn(groupRoleIn).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `GroupApi.AddRoleToGroup``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -181,7 +181,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.GroupApi.CreateGroup(context.Background(), group).Execute()
+    resp, r, err := api_client.GroupApi.CreateGroup(context.Background()).Group(group).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `GroupApi.CreateGroup``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -312,7 +312,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.GroupApi.DeletePrincipalFromGroup(context.Background(), uuid, usernames).Execute()
+    resp, r, err := api_client.GroupApi.DeletePrincipalFromGroup(context.Background(), uuid).Usernames(usernames).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `GroupApi.DeletePrincipalFromGroup``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -380,7 +380,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.GroupApi.DeleteRoleFromGroup(context.Background(), uuid, roles).Execute()
+    resp, r, err := api_client.GroupApi.DeleteRoleFromGroup(context.Background(), uuid).Roles(roles).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `GroupApi.DeleteRoleFromGroup``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -604,7 +604,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.GroupApi.ListGroups(context.Background(), ).Limit(limit).Offset(offset).Name(name).NameMatch(nameMatch).Scope(scope).Username(username).Uuid(uuid).RoleNames(roleNames).RoleDiscriminator(roleDiscriminator).OrderBy(orderBy).Execute()
+    resp, r, err := api_client.GroupApi.ListGroups(context.Background()).Limit(limit).Offset(offset).Name(name).NameMatch(nameMatch).Scope(scope).Username(username).Uuid(uuid).RoleNames(roleNames).RoleDiscriminator(roleDiscriminator).OrderBy(orderBy).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `GroupApi.ListGroups``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -760,7 +760,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.GroupApi.UpdateGroup(context.Background(), uuid, group).Execute()
+    resp, r, err := api_client.GroupApi.UpdateGroup(context.Background(), uuid).Group(group).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `GroupApi.UpdateGroup``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

@@ -39,7 +39,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.SapSystemApi.ApiSystemProfileGetSapSids(context.Background(), ).Tags(tags).PerPage(perPage).Page(page).Staleness(staleness).RegisteredWith(registeredWith).Filter(filter).Execute()
+    resp, r, err := api_client.SapSystemApi.ApiSystemProfileGetSapSids(context.Background()).Tags(tags).PerPage(perPage).Page(page).Staleness(staleness).RegisteredWith(registeredWith).Filter(filter).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `SapSystemApi.ApiSystemProfileGetSapSids``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -115,7 +115,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.SapSystemApi.ApiSystemProfileGetSapSystem(context.Background(), ).Tags(tags).PerPage(perPage).Page(page).Staleness(staleness).RegisteredWith(registeredWith).Filter(filter).Execute()
+    resp, r, err := api_client.SapSystemApi.ApiSystemProfileGetSapSystem(context.Background()).Tags(tags).PerPage(perPage).Page(page).Staleness(staleness).RegisteredWith(registeredWith).Filter(filter).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `SapSystemApi.ApiSystemProfileGetSapSystem``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

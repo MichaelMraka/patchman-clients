@@ -42,7 +42,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.HostsApi.ApiHostAddHostList(context.Background(), createHostIn).Execute()
+    resp, r, err := api_client.HostsApi.ApiHostAddHostList(context.Background()).CreateHostIn(createHostIn).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `HostsApi.ApiHostAddHostList``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -270,7 +270,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.HostsApi.ApiHostGetHostList(context.Background(), ).DisplayName(displayName).Fqdn(fqdn).HostnameOrId(hostnameOrId).InsightsId(insightsId).BranchId(branchId).PerPage(perPage).Page(page).OrderBy(orderBy).OrderHow(orderHow).Staleness(staleness).Tags(tags).RegisteredWith(registeredWith).Filter(filter).Execute()
+    resp, r, err := api_client.HostsApi.ApiHostGetHostList(context.Background()).DisplayName(displayName).Fqdn(fqdn).HostnameOrId(hostnameOrId).InsightsId(insightsId).BranchId(branchId).PerPage(perPage).Page(page).OrderBy(orderBy).OrderHow(orderHow).Staleness(staleness).Tags(tags).RegisteredWith(registeredWith).Filter(filter).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `HostsApi.ApiHostGetHostList``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -589,7 +589,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.HostsApi.ApiHostMergeFacts(context.Background(), hostIdList, namespace, body).BranchId(branchId).Execute()
+    resp, r, err := api_client.HostsApi.ApiHostMergeFacts(context.Background(), hostIdList, namespace).Body(body).BranchId(branchId).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `HostsApi.ApiHostMergeFacts``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -663,7 +663,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.HostsApi.ApiHostPatchById(context.Background(), hostIdList, patchHostIn).BranchId(branchId).Execute()
+    resp, r, err := api_client.HostsApi.ApiHostPatchById(context.Background(), hostIdList).PatchHostIn(patchHostIn).BranchId(branchId).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `HostsApi.ApiHostPatchById``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -736,7 +736,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.HostsApi.ApiHostReplaceFacts(context.Background(), hostIdList, namespace, body).BranchId(branchId).Execute()
+    resp, r, err := api_client.HostsApi.ApiHostReplaceFacts(context.Background(), hostIdList, namespace).Body(body).BranchId(branchId).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `HostsApi.ApiHostReplaceFacts``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

@@ -106,7 +106,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ExperimentalApi.AppRPMPkgNamesHandlerPostPost(context.Background(), ).RPMPkgNamesRequest(rPMPkgNamesRequest).Execute()
+    resp, r, err := api_client.ExperimentalApi.AppRPMPkgNamesHandlerPostPost(context.Background()).RPMPkgNamesRequest(rPMPkgNamesRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ExperimentalApi.AppRPMPkgNamesHandlerPostPost``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -242,7 +242,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ExperimentalApi.AppSRPMPkgNamesHandlerPostPost(context.Background(), ).SRPMPkgNamesRequest(sRPMPkgNamesRequest).Execute()
+    resp, r, err := api_client.ExperimentalApi.AppSRPMPkgNamesHandlerPostPost(context.Background()).SRPMPkgNamesRequest(sRPMPkgNamesRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ExperimentalApi.AppSRPMPkgNamesHandlerPostPost``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

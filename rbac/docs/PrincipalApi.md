@@ -39,7 +39,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.PrincipalApi.ListPrincipals(context.Background(), ).Limit(limit).Offset(offset).Usernames(usernames).SortOrder(sortOrder).Email(email).Status(status).AdminOnly(adminOnly).Execute()
+    resp, r, err := api_client.PrincipalApi.ListPrincipals(context.Background()).Limit(limit).Offset(offset).Usernames(usernames).SortOrder(sortOrder).Email(email).Status(status).AdminOnly(adminOnly).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `PrincipalApi.ListPrincipals``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

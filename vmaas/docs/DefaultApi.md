@@ -126,7 +126,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.DefaultApi.AppCVEHandlerPostPost(context.Background(), ).CvesRequest(cvesRequest).Execute()
+    resp, r, err := api_client.DefaultApi.AppCVEHandlerPostPost(context.Background()).CvesRequest(cvesRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.AppCVEHandlerPostPost``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -191,7 +191,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.DefaultApi.AppDBChangeHandlerGet(context.Background(), ).Execute()
+    resp, r, err := api_client.DefaultApi.AppDBChangeHandlerGet(context.Background()).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.AppDBChangeHandlerGet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -323,7 +323,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.DefaultApi.AppErrataHandlerPostPost(context.Background(), ).ErrataRequest(errataRequest).Execute()
+    resp, r, err := api_client.DefaultApi.AppErrataHandlerPostPost(context.Background()).ErrataRequest(errataRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.AppErrataHandlerPostPost``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -386,7 +386,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.DefaultApi.AppHealthHandlerGet(context.Background(), ).Execute()
+    resp, r, err := api_client.DefaultApi.AppHealthHandlerGet(context.Background()).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.AppHealthHandlerGet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -516,7 +516,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.DefaultApi.AppPackagesHandlerPostPost(context.Background(), ).PackagesRequest(packagesRequest).Execute()
+    resp, r, err := api_client.DefaultApi.AppPackagesHandlerPostPost(context.Background()).PackagesRequest(packagesRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.AppPackagesHandlerPostPost``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -652,7 +652,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.DefaultApi.AppPatchesHandlerPostPost(context.Background(), ).PatchesRequest(patchesRequest).Execute()
+    resp, r, err := api_client.DefaultApi.AppPatchesHandlerPostPost(context.Background()).PatchesRequest(patchesRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.AppPatchesHandlerPostPost``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -788,7 +788,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.DefaultApi.AppPkgtreeHandlerPostPost(context.Background(), ).PkgtreeRequest(pkgtreeRequest).Execute()
+    resp, r, err := api_client.DefaultApi.AppPkgtreeHandlerPostPost(context.Background()).PkgtreeRequest(pkgtreeRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.AppPkgtreeHandlerPostPost``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -851,7 +851,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.DefaultApi.AppReadyHandlerGet(context.Background(), ).Execute()
+    resp, r, err := api_client.DefaultApi.AppReadyHandlerGet(context.Background()).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.AppReadyHandlerGet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -981,7 +981,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.DefaultApi.AppReposHandlerPostPost(context.Background(), ).ReposRequest(reposRequest).Execute()
+    resp, r, err := api_client.DefaultApi.AppReposHandlerPostPost(context.Background()).ReposRequest(reposRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.AppReposHandlerPostPost``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -1117,7 +1117,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.DefaultApi.AppUpdatesHandlerPostPost(context.Background(), ).UpdatesRequest(updatesRequest).Execute()
+    resp, r, err := api_client.DefaultApi.AppUpdatesHandlerPostPost(context.Background()).UpdatesRequest(updatesRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.AppUpdatesHandlerPostPost``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -1253,7 +1253,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.DefaultApi.AppUpdatesHandlerV2PostPost(context.Background(), ).UpdatesRequest(updatesRequest).Execute()
+    resp, r, err := api_client.DefaultApi.AppUpdatesHandlerV2PostPost(context.Background()).UpdatesRequest(updatesRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.AppUpdatesHandlerV2PostPost``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -1389,7 +1389,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.DefaultApi.AppUpdatesHandlerV3PostPost(context.Background(), ).UpdatesV3Request(updatesV3Request).Execute()
+    resp, r, err := api_client.DefaultApi.AppUpdatesHandlerV3PostPost(context.Background()).UpdatesV3Request(updatesV3Request).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.AppUpdatesHandlerV3PostPost``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -1454,7 +1454,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.DefaultApi.AppVersionHandlerGet(context.Background(), ).Execute()
+    resp, r, err := api_client.DefaultApi.AppVersionHandlerGet(context.Background()).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.AppVersionHandlerGet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -1584,7 +1584,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.DefaultApi.AppVulnerabilitiesHandlerPostPost(context.Background(), ).VulnerabilitiesRequest(vulnerabilitiesRequest).Execute()
+    resp, r, err := api_client.DefaultApi.AppVulnerabilitiesHandlerPostPost(context.Background()).VulnerabilitiesRequest(vulnerabilitiesRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `DefaultApi.AppVulnerabilitiesHandlerPostPost``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

@@ -1,7 +1,9 @@
 #!/bin/bash
 
 CONTAINER=openapitools/openapi-generator-cli:latest
-CONTAINER_TOOL=$([ -x /usr/bin/podman ] && echo podman || echo docker)
+
+# force docker usage
+CONTAINER_TOOL=docker
 
 # For now, we skip the dateTime parsing because of incompatible formats ( inventory does not produce fully compliant
 

@@ -35,7 +35,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.PolicyApi.CreatePolicies(context.Background(), policyIn).Execute()
+    resp, r, err := api_client.PolicyApi.CreatePolicies(context.Background()).PolicyIn(policyIn).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `PolicyApi.CreatePolicies``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -241,7 +241,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.PolicyApi.ListPolicies(context.Background(), ).Limit(limit).Offset(offset).Name(name).Scope(scope).GroupName(groupName).GroupUuid(groupUuid).OrderBy(orderBy).Execute()
+    resp, r, err := api_client.PolicyApi.ListPolicies(context.Background()).Limit(limit).Offset(offset).Name(name).Scope(scope).GroupName(groupName).GroupUuid(groupUuid).OrderBy(orderBy).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `PolicyApi.ListPolicies``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -312,7 +312,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.PolicyApi.UpdatePolicy(context.Background(), uuid, policyIn).Execute()
+    resp, r, err := api_client.PolicyApi.UpdatePolicy(context.Background(), uuid).PolicyIn(policyIn).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `PolicyApi.UpdatePolicy``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

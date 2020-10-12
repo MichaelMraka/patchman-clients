@@ -36,7 +36,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.RoleApi.CreateRoles(context.Background(), roleIn).Execute()
+    resp, r, err := api_client.RoleApi.CreateRoles(context.Background()).RoleIn(roleIn).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `RoleApi.CreateRoles``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -319,7 +319,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.RoleApi.ListRoles(context.Background(), ).Limit(limit).Offset(offset).Name(name).NameMatch(nameMatch).Scope(scope).OrderBy(orderBy).AddFields(addFields).Username(username).Application(application).Permission(permission).Execute()
+    resp, r, err := api_client.RoleApi.ListRoles(context.Background()).Limit(limit).Offset(offset).Name(name).NameMatch(nameMatch).Scope(scope).OrderBy(orderBy).AddFields(addFields).Username(username).Application(application).Permission(permission).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `RoleApi.ListRoles``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -393,7 +393,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.RoleApi.UpdateRole(context.Background(), uuid, roleWithAccess).Execute()
+    resp, r, err := api_client.RoleApi.UpdateRole(context.Background(), uuid).RoleWithAccess(roleWithAccess).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `RoleApi.UpdateRole``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

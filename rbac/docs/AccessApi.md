@@ -36,7 +36,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.AccessApi.GetPrincipalAccess(context.Background(), application).Username(username).Limit(limit).Offset(offset).Execute()
+    resp, r, err := api_client.AccessApi.GetPrincipalAccess(context.Background()).Application(application).Username(username).Limit(limit).Offset(offset).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `AccessApi.GetPrincipalAccess``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
